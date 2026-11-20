@@ -4,285 +4,269 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#100d1d">
-<title>BAD BOYS CODE STUDIO</title>
-
+<meta name="theme-color" content="#090b18">
+<title>BAD BOYS CODE STUDIO 2.1</title>
 <style>
 :root {
-  --bg:#100d1d;
-  --panel:#1b1730;
-  --panel2:#241e3c;
-  --purple:#a855f7;
-  --cyan:#22d3ee;
-  --orange:#fb923c;
-  --text:#f4edff;
-  --muted:#aaa0bf;
-  --border:#393052;
+  --bg:#090b18;
+  --panel:#11162a;
+  --panel2:#171e35;
+  --line:#293454;
+  --text:#e8edff;
+  --muted:#8995b8;
+  --cyan:#27e7ff;
+  --pink:#ff4fd8;
+  --green:#55f59a;
+  --yellow:#ffe66d;
+  --red:#ff647c;
 }
-
 * { box-sizing:border-box; }
-
 body {
   margin:0;
-  background:var(--bg);
+  background:radial-gradient(ellipse at top,#182044 0%,var(--bg) 65%);
   color:var(--text);
-  font-family:Arial,sans-serif;
+  font-family:system-ui,Arial,sans-serif;
   min-height:100vh;
 }
-
 header {
-  background:linear-gradient(120deg,#211333,#101c38);
-  padding:17px;
-  border-bottom:2px solid var(--purple);
+  padding:15px;
+  border-bottom:1px solid var(--line);
+  background:#0b1020ee;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+.brand {
   display:flex;
-  justify-content:space-between;
   align-items:center;
   gap:10px;
   flex-wrap:wrap;
 }
-
 .logo {
-  font-size:19px;
-  font-weight:900;
-  letter-spacing:1px;
+  width:42px;height:42px;
+  display:grid;place-items:center;
+  border:2px solid var(--cyan);
   color:var(--cyan);
-  text-shadow:0 0 12px #22d3ee88;
+  border-radius:10px;
+  font-size:23px;
+  box-shadow:0 0 15px #27e7ff55;
 }
-
-.logo span { color:var(--orange); }
-
+h1 {
+  margin:0;
+  font-size:17px;
+  letter-spacing:1.5px;
+}
 .version {
+  color:var(--pink);
   font-size:11px;
-  color:var(--muted);
-  margin-top:5px;
-}
-
-button {
-  border:1px solid var(--border);
-  background:var(--panel2);
-  color:white;
-  border-radius:7px;
-  padding:10px 13px;
   font-weight:bold;
+}
+.subtitle { color:var(--muted);font-size:11px;margin-top:3px; }
+main { padding:12px;max-width:1500px;margin:auto; }
+.toolbar {
+  display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;
+}
+button,.file-button {
+  border:1px solid var(--line);
+  background:var(--panel2);
+  color:var(--text);
+  padding:10px 12px;
+  border-radius:8px;
+  font-weight:700;
+  font-size:12px;
   cursor:pointer;
 }
-
-button:active { transform:scale(.96); }
-
+button:active,.file-button:active { transform:scale(.97); }
 .run {
-  background:#16a34a;
-  border-color:#22c55e;
+  color:#07131a;background:var(--cyan);
+  border-color:var(--cyan);
 }
-
-main { padding:12px; }
-
-.toolbar {
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-
-.status {
-  color:var(--muted);
-  font-size:12px;
-  padding:10px 3px;
-}
-
+.save { color:var(--green);border-color:#267a56; }
+.danger { color:var(--red); }
 .workspace {
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:12px;
 }
-
 .panel {
   background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:10px;
+  border:1px solid var(--line);
+  border-radius:11px;
   overflow:hidden;
   min-width:0;
 }
-
-.panel-title {
-  padding:12px;
-  background:var(--panel2);
-  font-size:12px;
-  font-weight:bold;
-  color:var(--cyan);
+.panel-head {
+  padding:11px 13px;
+  background:#151c32;
+  border-bottom:1px solid var(--line);
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
+  gap:8px;
 }
-
-.tabs {
-  display:flex;
-  background:#151126;
-  overflow-x:auto;
+.panel-head strong {
+  font-size:12px;letter-spacing:1px;
 }
-
-.tab {
-  border:0;
-  border-radius:0;
-  background:transparent;
-  color:var(--muted);
-  padding:12px 16px;
-  border-bottom:2px solid transparent;
+.status { color:var(--green);font-size:10px; }
+.editor-layout { display:flex;min-height:390px; }
+.sidebar {
+  width:125px;flex-shrink:0;
+  background:#0d1325;
+  border-right:1px solid var(--line);
+  padding:9px 6px;
 }
-
-.tab.active {
-  color:var(--orange);
-  border-bottom-color:var(--orange);
-  background:var(--panel);
+.side-title {
+  color:var(--muted);font-size:10px;
+  padding:4px 6px 9px;
+  font-weight:bold;
 }
-
-.editor {
-  display:none;
-  width:100%;
-  min-height:420px;
-  resize:vertical;
-  border:0;
-  outline:0;
-  padding:14px;
-  background:#100d1d;
-  color:#d7f9ff;
-  font-family:monospace;
-  font-size:13px;
-  line-height:1.6;
-  tab-size:2;
+.file-item {
+  display:block;width:100%;text-align:left;
+  padding:9px 7px;margin-bottom:5px;
+  font-size:11px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;
 }
-
-.editor.active { display:block; }
-
-.preview-wrap {
-  padding:8px;
-  background:#100d1d;
+.file-item.active {
+  border-color:var(--cyan);
+  color:var(--cyan);
+  background:#142b40;
 }
-
-iframe {
-  width:100%;
-  height:420px;
-  border:0;
-  border-radius:5px;
+.editor-area { flex:1;min-width:0;display:flex;flex-direction:column; }
+.editor-top {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 10px;border-bottom:1px solid var(--line);
+  color:var(--muted);font-size:11px;
+}
+#currentFile { color:var(--cyan);font-weight:bold; }
+#editor {
+  display:block;width:100%;flex:1;min-height:350px;
+  resize:vertical;border:0;outline:0;
+  padding:14px;background:#090e1d;color:#dce7ff;
+  font:13px/1.65 "Courier New",monospace;
+  tab-size:2;white-space:pre;overflow:auto;
+  caret-color:var(--yellow);
+}
+#editor::selection { background:#28527a; }
+.preview-wrap { padding:10px; }
+#preview {
+  display:block;width:100%;height:390px;
+  border:1px solid var(--line);border-radius:7px;
   background:white;
 }
-
 .console {
-  padding:12px;
-  background:#0b0913;
-  color:#b8f5bd;
-  font-family:monospace;
-  font-size:12px;
-  min-height:75px;
-  max-height:160px;
-  overflow:auto;
-  white-space:pre-wrap;
+  margin-top:12px;background:#080d19;
+  border-top:1px solid var(--line);
+  min-height:85px;max-height:170px;overflow:auto;
+  padding:10px;font:11px/1.6 "Courier New",monospace;
 }
-
-footer {
-  text-align:center;
-  padding:25px 10px;
-  color:var(--muted);
-  font-size:11px;
+.console-line { white-space:pre-wrap;overflow-wrap:anywhere; }
+.console-line.info { color:var(--cyan); }
+.console-line.log { color:#dce7ff; }
+.console-line.warn { color:var(--yellow); }
+.console-line.error { color:var(--red); }
+.console-line.success { color:var(--green); }
+.console-head {
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:7px;
+  color:var(--muted);font-size:10px;font-weight:bold;
 }
-
-@media(max-width:700px) {
+.bottom-note {
+  color:var(--muted);font-size:11px;
+  text-align:center;padding:16px 5px;
+}
+.hidden { display:none; }
+@media(max-width:760px) {
+  main { padding:9px; }
   .workspace { grid-template-columns:1fr; }
-  .editor { min-height:300px; }
-  iframe { height:350px; }
-  header { align-items:flex-start; }
+  .editor-layout { min-height:330px; }
+  #editor { min-height:300px;font-size:12px; }
+  #preview { height:350px; }
+  .sidebar { width:105px; }
+  button { padding:10px;font-size:11px; }
 }
-
 </style>
 </head>
-
 <body>
-
 <header>
-  <div>
-    <div class="logo">⚡ BAD BOYS <span>CODE STUDIO</span></div>
-    <div class="version">ARCADE EDITION • VERSION 1.0</div>
+  <div class="brand">
+    <div class="logo">⚡</div>
+    <div>
+      <h1>BAD BOYS CODE STUDIO</h1>
+      <div class="subtitle">SEU LABORATÓRIO DE CRIAÇÃO DIGITAL</div>
+    </div>
+    <span class="version">VERSION 2.1</span>
   </div>
-  <button class="run" onclick="runCode()">▶ EXECUTAR</button>
 </header>
 
 <main>
-
-<div class="toolbar">
-  <button onclick="saveProject()">💾 SALVAR</button>
-  <button onclick="downloadProject()">⬇ BAIXAR HTML</button>
-  <button onclick="clearConsole()">🧹 LIMPAR CONSOLE</button>
-  <button onclick="resetProject()">↻ RESTAURAR</button>
-</div>
-
-<div class="status" id="status">
-  ● EDITOR PRONTO
-</div>
-
-<div class="workspace">
-
-<section class="panel">
-  <div class="panel-title">
-    <span>⌨ EDITOR DE CÓDIGO</span>
-    <span>LOCAL</span>
+  <div class="toolbar">
+    <button class="run" id="runBtn">▶ EXECUTAR</button>
+    <button class="save" id="saveBtn">💾 SALVAR</button>
+    <button id="newBtn">＋ NOVO ARQUIVO</button>
+    <button id="exportBtn">⬇ EXPORTAR</button>
+    <button id="importBtn">⬆ IMPORTAR</button>
+    <button id="clearConsoleBtn">LIMPAR CONSOLE</button>
+    <input id="importInput" class="hidden" type="file" accept=".json,application/json">
   </div>
 
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('html',this)">HTML</button>
-    <button class="tab" onclick="switchTab('css',this)">CSS</button>
-    <button class="tab" onclick="switchTab('js',this)">JS</button>
+  <div class="workspace">
+    <section class="panel">
+      <div class="panel-head">
+        <strong>⌨ EDITOR DE CÓDIGO</strong>
+        <span class="status" id="saveStatus">PRONTO</span>
+      </div>
+      <div class="editor-layout">
+        <aside class="sidebar">
+          <div class="side-title">ARQUIVOS</div>
+          <div id="fileList"></div>
+        </aside>
+        <div class="editor-area">
+          <div class="editor-top">
+            <span id="currentFile">index.html</span>
+            <span>EDITOR</span>
+          </div>
+          <textarea id="editor" spellcheck="false"
+            autocapitalize="off" autocomplete="off"
+            autocorrect="off" wrap="off"
+            aria-label="Editor de código"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <strong>▣ PRÉ-VISUALIZAÇÃO</strong>
+        <span class="status">LIVE PREVIEW</span>
+      </div>
+      <div class="preview-wrap">
+        <iframe id="preview" title="Pré-visualização"
+          sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe>
+      </div>
+      <div class="console">
+        <div class="console-head">
+          <span>⌁ CONSOLE</span>
+          <span id="consoleCount">0 mensagens</span>
+        </div>
+        <div id="consoleOutput">
+          <div class="console-line info">BAD BOYS STUDIO iniciado. Clique em EXECUTAR.</div>
+        </div>
+      </div>
+    </section>
   </div>
 
-  <textarea id="html" class="editor active"
-    spellcheck="false"
-    autocapitalize="off"
-    autocomplete="off"
-    placeholder="Digite seu HTML aqui..."></textarea>
-
-  <textarea id="css" class="editor"
-    spellcheck="false"
-    autocapitalize="off"
-    autocomplete="off"
-    placeholder="Digite seu CSS aqui..."></textarea>
-
-  <textarea id="js" class="editor"
-    spellcheck="false"
-    autocapitalize="off"
-    autocomplete="off"
-    placeholder="Digite seu JavaScript aqui..."></textarea>
-</section>
-
-<section class="panel">
-  <div class="panel-title">
-    <span>🖥 VISUALIZAÇÃO</span>
-    <button onclick="runCode()" class="run">ATUALIZAR</button>
+  <div class="bottom-note">
+    BAD BOYS CODE STUDIO 2.1 • FEITO PARA CRIAR • FEITO NO ANDROID
   </div>
-
-  <div class="preview-wrap">
-    <iframe id="preview" title="Pré-visualização"
-      sandbox="allow-scripts"></iframe>
-  </div>
-
-  <div class="panel-title">
-    <span>▸ CONSOLE</span>
-  </div>
-
-  <div class="console" id="console">
-    BAD BOYS SYSTEM ONLINE...
-  </div>
-</section>
-
-</div>
 </main>
 
-<footer>
-  BAD BOYS CODE STUDIO © 2026<br>
-  DESENVOLVIDO PELOS BAD BOYS ⚡
-</footer>
-
 <script>
+(() => {
+  "use strict";
 
-const defaults = {
-html: `<!DOCTYPE html>
+  const STORAGE_KEY = "badboys_code_studio_21";
+
+  const defaults = {
+    "index.html": `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -290,258 +274,356 @@ html: `<!DOCTYPE html>
   <title>Meu primeiro projeto</title>
 </head>
 <body>
-  <h1>🔥 BAD BOYS!</h1>
+  <h1>Olá, Bad Boys! ⚡</h1>
   <p>Meu primeiro projeto está funcionando!</p>
-  <button onclick="saudar()">CLIQUE AQUI</button>
+  <button onclick="mensagem()">Clique aqui</button>
 </body>
 </html>`,
-
-css: `body {
-  background: #171329;
+    "style.css": `body {
+  font-family: Arial, sans-serif;
+  background: #10172a;
   color: white;
-  font-family: Arial;
   text-align: center;
-  padding: 35px 10px;
+  padding: 40px 15px;
 }
 
 h1 {
-  color: #22d3ee;
-  font-size: 28px;
-}
-
-p {
-  color: #fb923c;
+  color: #00d9ff;
 }
 
 button {
-  background: #a855f7;
-  color: white;
-  padding: 13px 25px;
+  padding: 12px 20px;
   border: 0;
   border-radius: 8px;
+  background: #00d9ff;
   font-weight: bold;
 }`,
-
-js: `function saudar() {
-  alert("Os Bad Boys estão na área! 🔥");
-}
-
-console.log("Projeto carregado com sucesso!");`
-};
-
-const fields = ["html","css","js"];
-
-function setStatus(message) {
-  document.getElementById("status").textContent =
-    "● " + message;
-}
-
-function switchTab(name,button) {
-  document.querySelectorAll(".editor").forEach(el => {
-    el.classList.remove("active");
-  });
-
-  document.querySelectorAll(".tab").forEach(el => {
-    el.classList.remove("active");
-  });
-
-  document.getElementById(name).classList.add("active");
-  button.classList.add("active");
-}
-
-function getCode() {
-  return {
-    html: document.getElementById("html").value,
-    css: document.getElementById("css").value,
-    js: document.getElementById("js").value
+    "script.js": `function mensagem() {
+  alert("Funcionou! Bad Boys na área! ⚡");
+  console.log("Botão clicado com sucesso!");
+}`
   };
-}
 
-function runCode() {
-  const code = getCode();
+  let files = {};
+  let activeFile = "index.html";
+  let consoleMessages = 0;
+  let saveTimer = null;
 
-  const consoleBox = document.getElementById("console");
-  consoleBox.textContent = "Executando projeto...";
+  const editor = document.getElementById("editor");
+  const fileList = document.getElementById("fileList");
+  const currentFile = document.getElementById("currentFile");
+  const saveStatus = document.getElementById("saveStatus");
+  const preview = document.getElementById("preview");
+  const consoleOutput = document.getElementById("consoleOutput");
+  const consoleCount = document.getElementById("consoleCount");
 
-  const safeJS = code.js.replace(/<\/script/gi, "<\\/script");
-  const safeCSS = code.css.replace(/<\/style/gi, "<\\/style");
-
-  const html = code.html;
-
-  let output = html;
-
-  const styleTag = `<style>${safeCSS}</style>`;
-
-  if (/<\/head>/i.test(output)) {
-    output = output.replace(/<\/head>/i, styleTag + "</head>");
-  } else {
-    output = styleTag + output;
+  function addConsole(message, type = "log") {
+    const line = document.createElement("div");
+    line.className = "console-line " + type;
+    line.textContent = String(message);
+    consoleOutput.appendChild(line);
+    consoleMessages++;
+    consoleCount.textContent = consoleMessages + " mensagens";
+    consoleOutput.scrollTop = consoleOutput.scrollHeight;
   }
 
-  const scriptTag = `
-<script>
-(function() {
-  const send = (type,args) => {
-    parent.postMessage({
-      badboys:true,
-      type:type,
-      message:Array.from(args).map(x => {
-        try {
-          return typeof x === "object"
-            ? JSON.stringify(x)
-            : String(x);
-        } catch(e) {
-          return String(x);
+  function clearConsole() {
+    consoleOutput.replaceChildren();
+    consoleMessages = 0;
+    consoleCount.textContent = "0 mensagens";
+  }
+
+  function saveProject(showMessage = true) {
+    files[activeFile] = editor.value;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        files,
+        activeFile
+      }));
+      saveStatus.textContent = "SALVO ✓";
+      if (showMessage) addConsole("Projeto salvo neste dispositivo.", "success");
+      return true;
+    } catch (error) {
+      saveStatus.textContent = "ERRO AO SALVAR";
+      addConsole("Não foi possível salvar. Exporte uma cópia do projeto.", "error");
+      return false;
+    }
+  }
+
+  function loadProject() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data && data.files && typeof data.files === "object") {
+          files = data.files;
+          activeFile = typeof data.activeFile === "string" &&
+            files[data.activeFile] !== undefined
+            ? data.activeFile : Object.keys(files)[0];
         }
-      }).join(" ")
-    }, "*");
-  };
+      }
+    } catch (error) {
+      addConsole("Não foi possível recuperar o salvamento anterior.", "warn");
+    }
 
-  const originalLog = console.log;
-  const originalError = console.error;
-  const originalWarn = console.warn;
+    if (!Object.keys(files).length) {
+      files = { ...defaults };
+      activeFile = "index.html";
+    }
+    if (files[activeFile] === undefined) activeFile = Object.keys(files)[0];
+  }
 
-  console.log = function(...args) {
-    send("log",args);
-    originalLog.apply(console,args);
-  };
+  function renderFiles() {
+    fileList.replaceChildren();
 
-  console.error = function(...args) {
-    send("error",args);
-    originalError.apply(console,args);
-  };
+    Object.keys(files).forEach(name => {
+      const button = document.createElement("button");
+      button.className = "file-item" + (name === activeFile ? " active" : "");
+      button.textContent = "📄 " + name;
+      button.title = name;
+      button.addEventListener("click", () => openFile(name));
+      fileList.appendChild(button);
+    });
+  }
 
-  console.warn = function(...args) {
-    send("warn",args);
-    originalWarn.apply(console,args);
-  };
+  function openFile(name) {
+    if (files[activeFile] !== undefined) files[activeFile] = editor.value;
+    if (files[name] === undefined) return;
 
-  window.addEventListener("error",function(e) {
-    send("error",[e.message]);
+    activeFile = name;
+    editor.value = files[name];
+    currentFile.textContent = name;
+    renderFiles();
+    saveStatus.textContent = "EDITANDO";
+  }
+
+  function createFile() {
+    const name = prompt("Nome do arquivo (ex.: pagina.html):");
+    if (name === null) return;
+
+    const cleanName = name.trim();
+    if (!cleanName || cleanName.length > 60 ||
+        /[\\/:*?"<>|]/.test(cleanName)) {
+      alert("Nome de arquivo inválido.");
+      return;
+    }
+    if (files[cleanName] !== undefined) {
+      alert("Esse arquivo já existe.");
+      return;
+    }
+
+    files[activeFile] = editor.value;
+    files[cleanName] = "";
+    openFile(cleanName);
+    saveProject(false);
+    addConsole("Arquivo criado: " + cleanName, "success");
+  }
+
+  function deleteFile() {
+    if (Object.keys(files).length <= 1) {
+      alert("O projeto precisa ter pelo menos um arquivo.");
+      return;
+    }
+    if (!confirm("Excluir " + activeFile + "?")) return;
+
+    const removed = activeFile;
+    delete files[removed];
+    activeFile = Object.keys(files)[0];
+    editor.value = files[activeFile];
+    currentFile.textContent = activeFile;
+    renderFiles();
+    saveProject(false);
+    addConsole("Arquivo excluído: " + removed, "warn");
+  }
+
+  function downloadFile(filename, content, type) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function exportProject() {
+    files[activeFile] = editor.value;
+    const data = JSON.stringify({
+      app: "BAD BOYS CODE STUDIO",
+      version: "2.1",
+      files
+    }, null, 2);
+    downloadFile("bad-boys-projeto.json", data, "application/json");
+    addConsole("Backup do projeto exportado.", "success");
+  }
+
+  function importProject(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (!data || !data.files || typeof data.files !== "object" ||
+            Array.isArray(data.files)) {
+          throw new Error("Formato de projeto inválido.");
+        }
+
+        const imported = {};
+        Object.entries(data.files).forEach(([name, content]) => {
+          if (typeof name !== "string" || typeof content !== "string" ||
+              name.length > 60 || /[\\/:*?"<>|]/.test(name)) {
+            throw new Error("Arquivo inválido no projeto.");
+          }
+          imported[name] = content;
+        });
+
+        if (!Object.keys(imported).length) {
+          throw new Error("O projeto não contém arquivos.");
+        }
+
+        files = imported;
+        activeFile = files["index.html"] !== undefined
+          ? "index.html" : Object.keys(files)[0];
+        editor.value = files[activeFile];
+        currentFile.textContent = activeFile;
+        renderFiles();
+        saveProject(false);
+        addConsole("Projeto importado com sucesso!", "success");
+      } catch (error) {
+        alert("Não foi possível importar: " + error.message);
+      }
+    };
+    reader.onerror = () => alert("Erro ao ler o arquivo.");
+    reader.readAsText(file);
+  }
+
+  function makePreview() {
+    files[activeFile] = editor.value;
+
+    let html = files["index.html"] || "";
+    const css = files["style.css"] || "";
+    const js = files["script.js"] || "";
+
+    if (!html.trim()) html = "<!DOCTYPE html><html><head></head><body></body></html>";
+    if (!/<html[\s>]/i.test(html)) {
+      html = "<!DOCTYPE html><html><head></head><body>" + html + "</body></html>";
+    }
+
+    const bridge = `
+      (function(){
+        function send(level,args){
+          var values = Array.from(args).map(function(item){
+            try {
+              if (typeof item === "object") return JSON.stringify(item);
+              return String(item);
+            } catch(e) { return "[objeto]"; }
+          });
+          parent.postMessage({
+            type:"badboys-console",
+            level:level,
+            message:values.join(" ")
+          },"*");
+        }
+        ["log","info","warn","error"].forEach(function(level){
+          var original = console[level];
+          console[level] = function(){
+            send(level,arguments);
+            original.apply(console,arguments);
+          };
+        });
+        window.addEventListener("error",function(event){
+          send("error",[event.message + " (linha " + event.lineno + ")"]);
+        });
+        window.addEventListener("unhandledrejection",function(event){
+          send("error",["Promise: " + event.reason]);
+        });
+        console.info("Pré-visualização iniciada.");
+      })();
+    `;
+
+    const scriptOpen = "<scr" + "ipt>";
+    const scriptClose = "</scr" + "ipt>";
+
+    const styleTag = css
+      ? "<style>" + css.replace(/<\/style/gi, "<\\/style") + "</style>"
+      : "";
+
+    const bridgeTag = scriptOpen + bridge + scriptClose;
+    const userScriptTag = js
+      ? scriptOpen + js + scriptClose
+      : "";
+
+    if (/<\/head>/i.test(html)) {
+      html = html.replace(/<\/head>/i, styleTag + "</head>");
+    } else if (/<html[^>]*>/i.test(html)) {
+      html = html.replace(/<html[^>]*>/i, match =>
+        match + "<head>" + styleTag + "</head>");
+    } else {
+      html = "<head>" + styleTag + "</head>" + html;
+    }
+
+    const extraScripts = bridgeTag + userScriptTag;
+    if (/<\/body>/i.test(html)) {
+      html = html.replace(/<\/body>/i, extraScripts + "</body>");
+    } else {
+      html += extraScripts;
+    }
+
+    preview.srcdoc = html;
+    addConsole("Pré-visualização atualizada.", "success");
+  }
+
+  editor.addEventListener("input", () => {
+    files[activeFile] = editor.value;
+    saveStatus.textContent = "ALTERAÇÕES...";
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => saveProject(false), 700);
   });
+
+  editor.addEventListener("keydown", event => {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      editor.setRangeText("  ", start, end, "end");
+      editor.dispatchEvent(new Event("input"));
+    }
+  });
+
+  document.getElementById("runBtn").addEventListener("click", makePreview);
+  document.getElementById("saveBtn").addEventListener("click", () => saveProject(true));
+  document.getElementById("newBtn").addEventListener("click", createFile);
+  document.getElementById("exportBtn").addEventListener("click", exportProject);
+  document.getElementById("clearConsoleBtn").addEventListener("click", clearConsole);
+
+  document.getElementById("importBtn").addEventListener("click", () => {
+    document.getElementById("importInput").click();
+  });
+
+  document.getElementById("importInput").addEventListener("change", event => {
+    const file = event.target.files && event.target.files[0];
+    if (file) importProject(file);
+    event.target.value = "";
+  });
+
+  window.addEventListener("message", event => {
+    if (event.source !== preview.contentWindow) return;
+    const data = event.data;
+    if (!data || data.type !== "badboys-console") return;
+
+    const level = ["log","info","warn","error"].includes(data.level)
+      ? data.level : "log";
+    addConsole(data.message, level);
+  });
+
+  loadProject();
+  editor.value = files[activeFile] || "";
+  currentFile.textContent = activeFile;
+  renderFiles();
+  saveProject(false);
+  makePreview();
 })();
-<\/script>
-<script>${safeJS}<\/script>`;
-
-  if (/<\/body>/i.test(output)) {
-    output = output.replace(/<\/body>/i,scriptTag + "</body>");
-  } else {
-    output += scriptTag;
-  }
-
-  document.getElementById("preview").srcdoc = output;
-
-  consoleBox.textContent = "Projeto executado com sucesso!";
-  setStatus("PROJETO EXECUTADO");
-}
-
-window.addEventListener("message",function(event) {
-  const data = event.data;
-
-  if (!data || data.badboys !== true) return;
-
-  const box = document.getElementById("console");
-
-  const prefix = data.type === "error" ? "❌ " :
-    data.type === "warn" ? "⚠ " : "» ";
-
-  box.textContent += "\n" + prefix + data.message;
-  box.scrollTop = box.scrollHeight;
-});
-
-function saveProject() {
-  try {
-    localStorage.setItem(
-      "badboys_project",
-      JSON.stringify(getCode())
-    );
-    setStatus("PROJETO SALVO NO NAVEGADOR");
-  } catch(e) {
-    setStatus("ERRO AO SALVAR");
-    alert("Não foi possível salvar o projeto.");
-  }
-}
-
-function loadProject() {
-  try {
-    const saved = localStorage.getItem("badboys_project");
-
-    const code = saved ? JSON.parse(saved) : defaults;
-
-    fields.forEach(field => {
-      document.getElementById(field).value =
-        typeof code[field] === "string"
-          ? code[field]
-          : defaults[field];
-    });
-  } catch(e) {
-    fields.forEach(field => {
-      document.getElementById(field).value = defaults[field];
-    });
-  }
-}
-
-function clearConsole() {
-  document.getElementById("console").textContent =
-    "Console limpo.";
-}
-
-function resetProject() {
-  if (!confirm("Restaurar o projeto inicial?")) return;
-
-  fields.forEach(field => {
-    document.getElementById(field).value = defaults[field];
-  });
-
-  saveProject();
-  runCode();
-}
-
-function downloadProject() {
-  const code = getCode();
-
-  let output = code.html;
-
-  const styleTag = `<style>${code.css}</style>`;
-  const scriptTag = `<script>${code.js.replace(/<\/script/gi,"<\\/script")}<\/script>`;
-
-  if (/<\/head>/i.test(output)) {
-    output = output.replace(/<\/head>/i,styleTag + "</head>");
-  } else {
-    output = styleTag + output;
-  }
-
-  if (/<\/body>/i.test(output)) {
-    output = output.replace(/<\/body>/i,scriptTag + "</body>");
-  } else {
-    output += scriptTag;
-  }
-
-  const blob = new Blob([output], {
-    type:"text/html;charset=utf-8"
-  });
-
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-
-  link.href = url;
-  link.download = "projeto-badboys.html";
-  link.click();
-
-  setTimeout(() => URL.revokeObjectURL(url),1000);
-
-  setStatus("ARQUIVO HTML BAIXADO");
-}
-
-fields.forEach(field => {
-  document.getElementById(field).addEventListener("input",() => {
-    setStatus("ALTERAÇÕES NÃO SALVAS");
-  });
-});
-
-loadProject();
-runCode();
-
 </script>
 </body>
 </html>
