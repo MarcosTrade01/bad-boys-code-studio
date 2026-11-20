@@ -1,15 +1,26 @@
-# BAD BOYS CODE STUDIO 3.0
+BAD BOYS CODE STUDIO 3.1 — PACOTE PWA
 
-## Publicar no GitHub Pages
-1. Extraia todos os arquivos deste pacote.
-2. No repositório `bad-boys-code-studio`, envie/substitua `index.html`, `manifest.webmanifest`, `sw.js`, `icon-192.png` e `icon-512.png` na raiz (`/`).
-3. Faça commit diretamente na branch `main`.
-4. Aguarde o GitHub Pages publicar e abra o endereço HTTPS do site.
-5. No Chrome Android, use o botão INSTALAR APP ou menu ⋮ > Instalar app / Adicionar à tela inicial.
+ARQUIVOS:
+- index.html
+- manifest.webmanifest
+- sw.js
+- icon-192.png
+- icon-512.png
+- README.txt
 
-## Observações
-- PWA exige HTTPS; GitHub Pages fornece HTTPS.
-- O service worker funciona no escopo do caminho em que o site está publicado.
-- Os projetos ficam no armazenamento local do navegador. Exporte backups regularmente.
-- O app é independente de bibliotecas externas/CDNs.
-- O preview executa código do projeto em iframe isolado, mas não é um ambiente de segurança para executar código desconhecido.
+INSTALAÇÃO/ATUALIZAÇÃO:
+1. Envie os seis arquivos para a raiz do repositório GitHub Pages.
+2. Substitua os arquivos com o mesmo nome.
+3. Faça commit diretamente na branch main.
+4. Aguarde o GitHub Pages publicar.
+5. Abra o site no Chrome. Se necessário, feche o app instalado e abra o endereço em uma aba anônima uma vez para atualizar.
+6. Os dados de projetos existentes são preservados: a versão 3.1 mantém as chaves locais da versão 3.0.
+
+PROJETOS:
+- Use MEUS PROJETOS para abrir e alternar projetos.
+- Cada projeto possui seus próprios arquivos.
+- Os projetos são armazenados no navegador deste dispositivo.
+- Use EXPORTAR para fazer backup regularmente.
+
+NOTA:
+O editor executa código criado pelo usuário na prévia. Não execute código de origem desconhecida.
