@@ -1,1 +1,547 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#100d1d">
+<title>BAD BOYS CODE STUDIO</title>
+
+<style>
+:root {
+  --bg:#100d1d;
+  --panel:#1b1730;
+  --panel2:#241e3c;
+  --purple:#a855f7;
+  --cyan:#22d3ee;
+  --orange:#fb923c;
+  --text:#f4edff;
+  --muted:#aaa0bf;
+  --border:#393052;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+  min-height:100vh;
+}
+
+header {
+  background:linear-gradient(120deg,#211333,#101c38);
+  padding:17px;
+  border-bottom:2px solid var(--purple);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.logo {
+  font-size:19px;
+  font-weight:900;
+  letter-spacing:1px;
+  color:var(--cyan);
+  text-shadow:0 0 12px #22d3ee88;
+}
+
+.logo span { color:var(--orange); }
+
+.version {
+  font-size:11px;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+button {
+  border:1px solid var(--border);
+  background:var(--panel2);
+  color:white;
+  border-radius:7px;
+  padding:10px 13px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:active { transform:scale(.96); }
+
+.run {
+  background:#16a34a;
+  border-color:#22c55e;
+}
+
+main { padding:12px; }
+
+.toolbar {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.status {
+  color:var(--muted);
+  font-size:12px;
+  padding:10px 3px;
+}
+
+.workspace {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.panel {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+  min-width:0;
+}
+
+.panel-title {
+  padding:12px;
+  background:var(--panel2);
+  font-size:12px;
+  font-weight:bold;
+  color:var(--cyan);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.tabs {
+  display:flex;
+  background:#151126;
+  overflow-x:auto;
+}
+
+.tab {
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:var(--muted);
+  padding:12px 16px;
+  border-bottom:2px solid transparent;
+}
+
+.tab.active {
+  color:var(--orange);
+  border-bottom-color:var(--orange);
+  background:var(--panel);
+}
+
+.editor {
+  display:none;
+  width:100%;
+  min-height:420px;
+  resize:vertical;
+  border:0;
+  outline:0;
+  padding:14px;
+  background:#100d1d;
+  color:#d7f9ff;
+  font-family:monospace;
+  font-size:13px;
+  line-height:1.6;
+  tab-size:2;
+}
+
+.editor.active { display:block; }
+
+.preview-wrap {
+  padding:8px;
+  background:#100d1d;
+}
+
+iframe {
+  width:100%;
+  height:420px;
+  border:0;
+  border-radius:5px;
+  background:white;
+}
+
+.console {
+  padding:12px;
+  background:#0b0913;
+  color:#b8f5bd;
+  font-family:monospace;
+  font-size:12px;
+  min-height:75px;
+  max-height:160px;
+  overflow:auto;
+  white-space:pre-wrap;
+}
+
+footer {
+  text-align:center;
+  padding:25px 10px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+@media(max-width:700px) {
+  .workspace { grid-template-columns:1fr; }
+  .editor { min-height:300px; }
+  iframe { height:350px; }
+  header { align-items:flex-start; }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <div class="logo">⚡ BAD BOYS <span>CODE STUDIO</span></div>
+    <div class="version">ARCADE EDITION • VERSION 1.0</div>
+  </div>
+  <button class="run" onclick="runCode()">▶ EXECUTAR</button>
+</header>
+
+<main>
+
+<div class="toolbar">
+  <button onclick="saveProject()">💾 SALVAR</button>
+  <button onclick="downloadProject()">⬇ BAIXAR HTML</button>
+  <button onclick="clearConsole()">🧹 LIMPAR CONSOLE</button>
+  <button onclick="resetProject()">↻ RESTAURAR</button>
+</div>
+
+<div class="status" id="status">
+  ● EDITOR PRONTO
+</div>
+
+<div class="workspace">
+
+<section class="panel">
+  <div class="panel-title">
+    <span>⌨ EDITOR DE CÓDIGO</span>
+    <span>LOCAL</span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('html',this)">HTML</button>
+    <button class="tab" onclick="switchTab('css',this)">CSS</button>
+    <button class="tab" onclick="switchTab('js',this)">JS</button>
+  </div>
+
+  <textarea id="html" class="editor active"
+    spellcheck="false"
+    autocapitalize="off"
+    autocomplete="off"
+    placeholder="Digite seu HTML aqui..."></textarea>
+
+  <textarea id="css" class="editor"
+    spellcheck="false"
+    autocapitalize="off"
+    autocomplete="off"
+    placeholder="Digite seu CSS aqui..."></textarea>
+
+  <textarea id="js" class="editor"
+    spellcheck="false"
+    autocapitalize="off"
+    autocomplete="off"
+    placeholder="Digite seu JavaScript aqui..."></textarea>
+</section>
+
+<section class="panel">
+  <div class="panel-title">
+    <span>🖥 VISUALIZAÇÃO</span>
+    <button onclick="runCode()" class="run">ATUALIZAR</button>
+  </div>
+
+  <div class="preview-wrap">
+    <iframe id="preview" title="Pré-visualização"
+      sandbox="allow-scripts"></iframe>
+  </div>
+
+  <div class="panel-title">
+    <span>▸ CONSOLE</span>
+  </div>
+
+  <div class="console" id="console">
+    BAD BOYS SYSTEM ONLINE...
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer>
+  BAD BOYS CODE STUDIO © 2026<br>
+  DESENVOLVIDO PELOS BAD BOYS ⚡
+</footer>
+
+<script>
+
+const defaults = {
+html: `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu primeiro projeto</title>
+</head>
+<body>
+  <h1>🔥 BAD BOYS!</h1>
+  <p>Meu primeiro projeto está funcionando!</p>
+  <button onclick="saudar()">CLIQUE AQUI</button>
+</body>
+</html>`,
+
+css: `body {
+  background: #171329;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+  padding: 35px 10px;
+}
+
+h1 {
+  color: #22d3ee;
+  font-size: 28px;
+}
+
+p {
+  color: #fb923c;
+}
+
+button {
+  background: #a855f7;
+  color: white;
+  padding: 13px 25px;
+  border: 0;
+  border-radius: 8px;
+  font-weight: bold;
+}`,
+
+js: `function saudar() {
+  alert("Os Bad Boys estão na área! 🔥");
+}
+
+console.log("Projeto carregado com sucesso!");`
+};
+
+const fields = ["html","css","js"];
+
+function setStatus(message) {
+  document.getElementById("status").textContent =
+    "● " + message;
+}
+
+function switchTab(name,button) {
+  document.querySelectorAll(".editor").forEach(el => {
+    el.classList.remove("active");
+  });
+
+  document.querySelectorAll(".tab").forEach(el => {
+    el.classList.remove("active");
+  });
+
+  document.getElementById(name).classList.add("active");
+  button.classList.add("active");
+}
+
+function getCode() {
+  return {
+    html: document.getElementById("html").value,
+    css: document.getElementById("css").value,
+    js: document.getElementById("js").value
+  };
+}
+
+function runCode() {
+  const code = getCode();
+
+  const consoleBox = document.getElementById("console");
+  consoleBox.textContent = "Executando projeto...";
+
+  const safeJS = code.js.replace(/<\/script/gi, "<\\/script");
+  const safeCSS = code.css.replace(/<\/style/gi, "<\\/style");
+
+  const html = code.html;
+
+  let output = html;
+
+  const styleTag = `<style>${safeCSS}</style>`;
+
+  if (/<\/head>/i.test(output)) {
+    output = output.replace(/<\/head>/i, styleTag + "</head>");
+  } else {
+    output = styleTag + output;
+  }
+
+  const scriptTag = `
+<script>
+(function() {
+  const send = (type,args) => {
+    parent.postMessage({
+      badboys:true,
+      type:type,
+      message:Array.from(args).map(x => {
+        try {
+          return typeof x === "object"
+            ? JSON.stringify(x)
+            : String(x);
+        } catch(e) {
+          return String(x);
+        }
+      }).join(" ")
+    }, "*");
+  };
+
+  const originalLog = console.log;
+  const originalError = console.error;
+  const originalWarn = console.warn;
+
+  console.log = function(...args) {
+    send("log",args);
+    originalLog.apply(console,args);
+  };
+
+  console.error = function(...args) {
+    send("error",args);
+    originalError.apply(console,args);
+  };
+
+  console.warn = function(...args) {
+    send("warn",args);
+    originalWarn.apply(console,args);
+  };
+
+  window.addEventListener("error",function(e) {
+    send("error",[e.message]);
+  });
+})();
+<\/script>
+<script>${safeJS}<\/script>`;
+
+  if (/<\/body>/i.test(output)) {
+    output = output.replace(/<\/body>/i,scriptTag + "</body>");
+  } else {
+    output += scriptTag;
+  }
+
+  document.getElementById("preview").srcdoc = output;
+
+  consoleBox.textContent = "Projeto executado com sucesso!";
+  setStatus("PROJETO EXECUTADO");
+}
+
+window.addEventListener("message",function(event) {
+  const data = event.data;
+
+  if (!data || data.badboys !== true) return;
+
+  const box = document.getElementById("console");
+
+  const prefix = data.type === "error" ? "❌ " :
+    data.type === "warn" ? "⚠ " : "» ";
+
+  box.textContent += "\n" + prefix + data.message;
+  box.scrollTop = box.scrollHeight;
+});
+
+function saveProject() {
+  try {
+    localStorage.setItem(
+      "badboys_project",
+      JSON.stringify(getCode())
+    );
+    setStatus("PROJETO SALVO NO NAVEGADOR");
+  } catch(e) {
+    setStatus("ERRO AO SALVAR");
+    alert("Não foi possível salvar o projeto.");
+  }
+}
+
+function loadProject() {
+  try {
+    const saved = localStorage.getItem("badboys_project");
+
+    const code = saved ? JSON.parse(saved) : defaults;
+
+    fields.forEach(field => {
+      document.getElementById(field).value =
+        typeof code[field] === "string"
+          ? code[field]
+          : defaults[field];
+    });
+  } catch(e) {
+    fields.forEach(field => {
+      document.getElementById(field).value = defaults[field];
+    });
+  }
+}
+
+function clearConsole() {
+  document.getElementById("console").textContent =
+    "Console limpo.";
+}
+
+function resetProject() {
+  if (!confirm("Restaurar o projeto inicial?")) return;
+
+  fields.forEach(field => {
+    document.getElementById(field).value = defaults[field];
+  });
+
+  saveProject();
+  runCode();
+}
+
+function downloadProject() {
+  const code = getCode();
+
+  let output = code.html;
+
+  const styleTag = `<style>${code.css}</style>`;
+  const scriptTag = `<script>${code.js.replace(/<\/script/gi,"<\\/script")}<\/script>`;
+
+  if (/<\/head>/i.test(output)) {
+    output = output.replace(/<\/head>/i,styleTag + "</head>");
+  } else {
+    output = styleTag + output;
+  }
+
+  if (/<\/body>/i.test(output)) {
+    output = output.replace(/<\/body>/i,scriptTag + "</body>");
+  } else {
+    output += scriptTag;
+  }
+
+  const blob = new Blob([output], {
+    type:"text/html;charset=utf-8"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "projeto-badboys.html";
+  link.click();
+
+  setTimeout(() => URL.revokeObjectURL(url),1000);
+
+  setStatus("ARQUIVO HTML BAIXADO");
+}
+
+fields.forEach(field => {
+  document.getElementById(field).addEventListener("input",() => {
+    setStatus("ALTERAÇÕES NÃO SALVAS");
+  });
+});
+
+loadProject();
+runCode();
+
+</script>
+</body>
+</html>
