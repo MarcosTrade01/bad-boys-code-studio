@@ -1,629 +1,113 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090b18">
-<title>BAD BOYS CODE STUDIO 2.1</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090d1b">
+<meta name="description" content="BAD BOYS CODE STUDIO — ambiente de desenvolvimento web para Android.">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon-192.png">
+<title>BAD BOYS CODE STUDIO 3.0</title>
 <style>
-:root {
-  --bg:#090b18;
-  --panel:#11162a;
-  --panel2:#171e35;
-  --line:#293454;
-  --text:#e8edff;
-  --muted:#8995b8;
-  --cyan:#27e7ff;
-  --pink:#ff4fd8;
-  --green:#55f59a;
-  --yellow:#ffe66d;
-  --red:#ff647c;
-}
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  background:radial-gradient(ellipse at top,#182044 0%,var(--bg) 65%);
-  color:var(--text);
-  font-family:system-ui,Arial,sans-serif;
-  min-height:100vh;
-}
-header {
-  padding:15px;
-  border-bottom:1px solid var(--line);
-  background:#0b1020ee;
-  position:sticky;
-  top:0;
-  z-index:5;
-}
-.brand {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.logo {
-  width:42px;height:42px;
-  display:grid;place-items:center;
-  border:2px solid var(--cyan);
-  color:var(--cyan);
-  border-radius:10px;
-  font-size:23px;
-  box-shadow:0 0 15px #27e7ff55;
-}
-h1 {
-  margin:0;
-  font-size:17px;
-  letter-spacing:1.5px;
-}
-.version {
-  color:var(--pink);
-  font-size:11px;
-  font-weight:bold;
-}
-.subtitle { color:var(--muted);font-size:11px;margin-top:3px; }
-main { padding:12px;max-width:1500px;margin:auto; }
-.toolbar {
-  display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;
-}
-button,.file-button {
-  border:1px solid var(--line);
-  background:var(--panel2);
-  color:var(--text);
-  padding:10px 12px;
-  border-radius:8px;
-  font-weight:700;
-  font-size:12px;
-  cursor:pointer;
-}
-button:active,.file-button:active { transform:scale(.97); }
-.run {
-  color:#07131a;background:var(--cyan);
-  border-color:var(--cyan);
-}
-.save { color:var(--green);border-color:#267a56; }
-.danger { color:var(--red); }
-.workspace {
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:12px;
-}
-.panel {
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:11px;
-  overflow:hidden;
-  min-width:0;
-}
-.panel-head {
-  padding:11px 13px;
-  background:#151c32;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-}
-.panel-head strong {
-  font-size:12px;letter-spacing:1px;
-}
-.status { color:var(--green);font-size:10px; }
-.editor-layout { display:flex;min-height:390px; }
-.sidebar {
-  width:125px;flex-shrink:0;
-  background:#0d1325;
-  border-right:1px solid var(--line);
-  padding:9px 6px;
-}
-.side-title {
-  color:var(--muted);font-size:10px;
-  padding:4px 6px 9px;
-  font-weight:bold;
-}
-.file-item {
-  display:block;width:100%;text-align:left;
-  padding:9px 7px;margin-bottom:5px;
-  font-size:11px;overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap;
-}
-.file-item.active {
-  border-color:var(--cyan);
-  color:var(--cyan);
-  background:#142b40;
-}
-.editor-area { flex:1;min-width:0;display:flex;flex-direction:column; }
-.editor-top {
-  display:flex;align-items:center;justify-content:space-between;
-  padding:8px 10px;border-bottom:1px solid var(--line);
-  color:var(--muted);font-size:11px;
-}
-#currentFile { color:var(--cyan);font-weight:bold; }
-#editor {
-  display:block;width:100%;flex:1;min-height:350px;
-  resize:vertical;border:0;outline:0;
-  padding:14px;background:#090e1d;color:#dce7ff;
-  font:13px/1.65 "Courier New",monospace;
-  tab-size:2;white-space:pre;overflow:auto;
-  caret-color:var(--yellow);
-}
-#editor::selection { background:#28527a; }
-.preview-wrap { padding:10px; }
-#preview {
-  display:block;width:100%;height:390px;
-  border:1px solid var(--line);border-radius:7px;
-  background:white;
-}
-.console {
-  margin-top:12px;background:#080d19;
-  border-top:1px solid var(--line);
-  min-height:85px;max-height:170px;overflow:auto;
-  padding:10px;font:11px/1.6 "Courier New",monospace;
-}
-.console-line { white-space:pre-wrap;overflow-wrap:anywhere; }
-.console-line.info { color:var(--cyan); }
-.console-line.log { color:#dce7ff; }
-.console-line.warn { color:var(--yellow); }
-.console-line.error { color:var(--red); }
-.console-line.success { color:var(--green); }
-.console-head {
-  display:flex;justify-content:space-between;
-  align-items:center;margin-bottom:7px;
-  color:var(--muted);font-size:10px;font-weight:bold;
-}
-.bottom-note {
-  color:var(--muted);font-size:11px;
-  text-align:center;padding:16px 5px;
-}
-.hidden { display:none; }
-@media(max-width:760px) {
-  main { padding:9px; }
-  .workspace { grid-template-columns:1fr; }
-  .editor-layout { min-height:330px; }
-  #editor { min-height:300px;font-size:12px; }
-  #preview { height:350px; }
-  .sidebar { width:105px; }
-  button { padding:10px;font-size:11px; }
-}
+:root{--bg:#080c18;--panel:#10182b;--panel2:#17223a;--line:#293957;--text:#eaf1ff;--muted:#8ea0c2;--cyan:#35e7ff;--pink:#ff58d5;--green:#65f3a4;--yellow:#ffe17a;--red:#ff7188;--code:#0a1020}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{padding-bottom:env(safe-area-inset-bottom)}button,input,select{font:inherit}button{cursor:pointer}
+.topbar{position:sticky;top:0;z-index:20;background:#0b1122f2;border-bottom:1px solid var(--line);padding:10px 13px;backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:39px;height:39px;border:2px solid var(--cyan);border-radius:10px;display:grid;place-items:center;color:var(--cyan);font-size:22px;font-weight:900;box-shadow:0 0 16px #35e7ff45}
+.brand h1{font-size:15px;letter-spacing:1px;margin:0}.brand small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.vtag{margin-left:auto;color:var(--pink);font-size:10px;font-weight:900}
+.toolbar{display:flex;gap:7px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:thin}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:9px 11px;font-size:11px;font-weight:750;white-space:nowrap}.btn.primary{background:var(--cyan);color:#06131a;border-color:var(--cyan)}.btn.good{color:var(--green);border-color:#28664c}.btn.warn{color:var(--yellow)}.btn:active{transform:scale(.97)}
+main{max-width:1600px;margin:auto;padding:12px}.statusbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:10px;margin:0 0 10px}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:4px}.layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:11px;align-items:start}
+.panel{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:11px;overflow:hidden}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#141e34;border-bottom:1px solid var(--line)}.panelhead strong{font-size:11px;letter-spacing:.8px}.muted{color:var(--muted);font-size:10px}
+.workarea{display:grid;grid-template-columns:128px minmax(0,1fr);min-height:470px}.files{background:#0c1324;border-right:1px solid var(--line);padding:9px 7px}.filetop{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:10px;font-weight:800;padding:3px 4px 9px}.tiny{padding:3px 7px!important;font-size:12px!important}.filebtn{display:block;width:100%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid transparent;background:transparent;color:#cbd8f2;border-radius:6px;padding:8px 6px;margin:2px 0;font-size:10px}.filebtn.active{background:#142d43;border-color:#28748b;color:var(--cyan)}
+.editorcol{min-width:0}.tabs{display:flex;gap:3px;overflow:auto;background:#0c1324;border-bottom:1px solid var(--line);padding:5px}.tab{border:1px solid transparent;background:transparent;color:var(--muted);padding:7px 9px;border-radius:6px;font-size:10px;white-space:nowrap}.tab.active{color:var(--cyan);background:#142238;border-color:#28435d}
+.editortools{display:flex;gap:6px;align-items:center;justify-content:space-between;padding:7px 9px;border-bottom:1px solid var(--line)}.editortools span{font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.editortools button{font-size:10px;padding:5px 7px}
+.editorbox{height:420px;display:flex;background:var(--code);overflow:hidden;position:relative}.gutter{flex:0 0 38px;overflow:hidden;text-align:right;padding:12px 7px 30px 0;color:#536481;background:#0a0f1d;border-right:1px solid #1b2940;font:12px/1.6 ui-monospace,Consolas,monospace;white-space:pre;user-select:none}.codewrap{position:relative;flex:1;min-width:0;overflow:hidden}.highlight,.codeinput{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:12px 13px 30px;border:0;white-space:pre;overflow:auto;tab-size:2;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:0;word-spacing:0}.highlight{pointer-events:none;color:#dce8ff;background:transparent;scrollbar-width:none}.highlight code{font:inherit}.codeinput{resize:none;outline:none;background:transparent;color:transparent;-webkit-text-fill-color:transparent;caret-color:#fff;z-index:2;overflow:auto}.codeinput::selection{background:#315d8b88;-webkit-text-fill-color:transparent}.tok-tag{color:#65d9ff}.tok-attr{color:#ffc66d}.tok-str{color:#a8e6a1}.tok-comment{color:#71839d;font-style:italic}.tok-key{color:#d6a4ff}.tok-num{color:#ff9e80}.tok-fn{color:#70d9c1}
+.previewbox{padding:9px}.preview{width:100%;height:420px;border:1px solid var(--line);border-radius:7px;background:white;display:block}.console{border-top:1px solid var(--line);background:#080d18;padding:9px 11px;min-height:100px;max-height:190px;overflow:auto;font:11px/1.6 ui-monospace,monospace}.consolehead{display:flex;justify-content:space-between;color:var(--muted);font:10px system-ui;margin-bottom:7px}.msg{white-space:pre-wrap;overflow-wrap:anywhere}.msg.log{color:#dce8ff}.msg.info{color:var(--cyan)}.msg.warn{color:var(--yellow)}.msg.error{color:var(--red)}.msg.ok{color:var(--green)}
+.bottomgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:11px}.help{padding:12px;color:var(--muted);font-size:11px;line-height:1.6}.help b{color:var(--text)}.installhint{color:var(--green)}
+.modalback{position:fixed;inset:0;background:#0009;z-index:40;display:none;align-items:center;justify-content:center;padding:18px}.modalback.show{display:flex}.modal{width:min(420px,100%);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}.modal h3{margin:0 0 12px;font-size:15px}.modal input,.modal select{width:100%;padding:11px;border-radius:7px;border:1px solid var(--line);background:#080f20;color:var(--text);margin:5px 0 12px}.modalactions{display:flex;gap:8px;justify-content:flex-end}.hide{display:none!important}
+footer{text-align:center;color:#62718f;font-size:10px;padding:17px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.workarea{min-height:410px}.editorbox{height:370px}.preview{height:350px}.bottomgrid{grid-template-columns:1fr}}
+@media(max-width:430px){main{padding:8px}.workarea{grid-template-columns:92px minmax(0,1fr)}.files{padding:7px 4px}.filebtn{font-size:9px;padding:8px 4px}.editorbox{height:330px}.preview{height:320px}.brand h1{font-size:13px}}
 </style>
 </head>
 <body>
-<header>
-  <div class="brand">
-    <div class="logo">⚡</div>
-    <div>
-      <h1>BAD BOYS CODE STUDIO</h1>
-      <div class="subtitle">SEU LABORATÓRIO DE CRIAÇÃO DIGITAL</div>
-    </div>
-    <span class="version">VERSION 2.1</span>
-  </div>
+<header class="topbar">
+ <div class="brand"><div class="logo">⚡</div><div><h1>BAD BOYS CODE STUDIO</h1><small>AMBIENTE DE DESENVOLVIMENTO • ANDROID READY</small></div><span class="vtag">3.0 FINAL</span></div>
+ <nav class="toolbar">
+  <button class="btn primary" id="run">▶ EXECUTAR</button><button class="btn good" id="save">💾 SALVAR</button><button class="btn" id="newProject">＋ PROJETO</button><button class="btn" id="newFile">＋ ARQUIVO</button><button class="btn" id="rename">✎ RENOMEAR</button><button class="btn warn" id="delete">⌫ EXCLUIR</button><button class="btn" id="backup">⬇ EXPORTAR</button><button class="btn" id="restore">⬆ IMPORTAR</button><button class="btn" id="install" hidden>＋ INSTALAR APP</button>
+  <input id="restoreFile" type="file" accept=".json,application/json" hidden>
+ </nav>
 </header>
-
 <main>
-  <div class="toolbar">
-    <button class="run" id="runBtn">▶ EXECUTAR</button>
-    <button class="save" id="saveBtn">💾 SALVAR</button>
-    <button id="newBtn">＋ NOVO ARQUIVO</button>
-    <button id="exportBtn">⬇ EXPORTAR</button>
-    <button id="importBtn">⬆ IMPORTAR</button>
-    <button id="clearConsoleBtn">LIMPAR CONSOLE</button>
-    <input id="importInput" class="hidden" type="file" accept=".json,application/json">
-  </div>
-
-  <div class="workspace">
-    <section class="panel">
-      <div class="panel-head">
-        <strong>⌨ EDITOR DE CÓDIGO</strong>
-        <span class="status" id="saveStatus">PRONTO</span>
-      </div>
-      <div class="editor-layout">
-        <aside class="sidebar">
-          <div class="side-title">ARQUIVOS</div>
-          <div id="fileList"></div>
-        </aside>
-        <div class="editor-area">
-          <div class="editor-top">
-            <span id="currentFile">index.html</span>
-            <span>EDITOR</span>
-          </div>
-          <textarea id="editor" spellcheck="false"
-            autocapitalize="off" autocomplete="off"
-            autocorrect="off" wrap="off"
-            aria-label="Editor de código"></textarea>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-head">
-        <strong>▣ PRÉ-VISUALIZAÇÃO</strong>
-        <span class="status">LIVE PREVIEW</span>
-      </div>
-      <div class="preview-wrap">
-        <iframe id="preview" title="Pré-visualização"
-          sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe>
-      </div>
-      <div class="console">
-        <div class="console-head">
-          <span>⌁ CONSOLE</span>
-          <span id="consoleCount">0 mensagens</span>
-        </div>
-        <div id="consoleOutput">
-          <div class="console-line info">BAD BOYS STUDIO iniciado. Clique em EXECUTAR.</div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <div class="bottom-note">
-    BAD BOYS CODE STUDIO 2.1 • FEITO PARA CRIAR • FEITO NO ANDROID
-  </div>
+ <div class="statusbar"><span><i class="dot"></i><span id="saveState">Pronto</span></span><span id="projectName">Projeto: Meu Projeto</span><span id="pwaState">PWA: verificando…</span></div>
+ <div class="layout">
+  <section class="panel">
+   <div class="panelhead"><strong>⌨ EDITOR DE CÓDIGO</strong><span class="muted" id="language">HTML</span></div>
+   <div class="workarea">
+    <aside class="files"><div class="filetop">ARQUIVOS <button class="btn tiny" id="sideNew">+</button></div><div id="fileList"></div></aside>
+    <div class="editorcol">
+     <div class="tabs" id="tabs"></div>
+     <div class="editortools"><span id="activeName">index.html</span><div><button class="btn tiny" id="find">⌕ Localizar</button><button class="btn tiny" id="replace">⇄ Trocar</button></div></div>
+     <div class="editorbox"><div class="gutter" id="gutter">1</div><div class="codewrap"><pre class="highlight" aria-hidden="true"><code id="colored"></code></pre><textarea class="codeinput" id="editor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off" aria-label="Editor de código"></textarea></div></div>
+    </div>
+   </div>
+  </section>
+  <section class="panel">
+   <div class="panelhead"><strong>▣ PRÉ-VISUALIZAÇÃO</strong><button class="btn tiny" id="refresh">↻ ATUALIZAR</button></div>
+   <div class="previewbox"><iframe class="preview" id="preview" title="Pré-visualização do projeto" sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe></div>
+   <div class="console"><div class="consolehead"><b>⌁ CONSOLE</b><span><span id="msgCount">0</span> mensagens <button class="btn tiny" id="clearConsole">LIMPAR</button></span></div><div id="messages"><div class="msg info">BAD BOYS STUDIO 3.0 iniciado.</div></div></div>
+  </section>
+ </div>
+ <div class="bottomgrid">
+  <section class="panel"><div class="panelhead"><strong>⚙ FERRAMENTAS</strong></div><div class="help"><b>Atalhos:</b> Ctrl + S para salvar • Tab insere espaços • Use Localizar e Trocar para editar rapidamente.<br><b>Arquivos:</b> index.html, style.css e script.js são combinados ao executar.</div></section>
+  <section class="panel"><div class="panelhead"><strong>📱 INSTALAÇÃO PWA</strong></div><div class="help"><span class="installhint">Aplicativo instalável quando aberto pelo endereço HTTPS do GitHub Pages.</span><br>Se o botão INSTALAR APP não aparecer, abra o menu do Chrome e escolha <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.</div></section>
+ </div>
+ <footer>BAD BOYS CODE STUDIO 3.0 • CRIADO PARA CONSTRUIR • FUNCIONA NO NAVEGADOR E COMO PWA</footer>
 </main>
-
+<div class="modalback" id="modal"><div class="modal"><h3 id="modalTitle">Novo arquivo</h3><input id="modalInput" placeholder="Nome do arquivo"><div class="modalactions"><button class="btn" id="cancelModal">Cancelar</button><button class="btn primary" id="confirmModal">Confirmar</button></div></div></div>
 <script>
-(() => {
-  "use strict";
-
-  const STORAGE_KEY = "badboys_code_studio_21";
-
-  const defaults = {
-    "index.html": `<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu primeiro projeto</title>
-</head>
-<body>
-  <h1>Olá, Bad Boys! ⚡</h1>
-  <p>Meu primeiro projeto está funcionando!</p>
-  <button onclick="mensagem()">Clique aqui</button>
-</body>
-</html>`,
-    "style.css": `body {
-  font-family: Arial, sans-serif;
-  background: #10172a;
-  color: white;
-  text-align: center;
-  padding: 40px 15px;
-}
-
-h1 {
-  color: #00d9ff;
-}
-
-button {
-  padding: 12px 20px;
-  border: 0;
-  border-radius: 8px;
-  background: #00d9ff;
-  font-weight: bold;
-}`,
-    "script.js": `function mensagem() {
-  alert("Funcionou! Bad Boys na área! ⚡");
-  console.log("Botão clicado com sucesso!");
-}`
-  };
-
-  let files = {};
-  let activeFile = "index.html";
-  let consoleMessages = 0;
-  let saveTimer = null;
-
-  const editor = document.getElementById("editor");
-  const fileList = document.getElementById("fileList");
-  const currentFile = document.getElementById("currentFile");
-  const saveStatus = document.getElementById("saveStatus");
-  const preview = document.getElementById("preview");
-  const consoleOutput = document.getElementById("consoleOutput");
-  const consoleCount = document.getElementById("consoleCount");
-
-  function addConsole(message, type = "log") {
-    const line = document.createElement("div");
-    line.className = "console-line " + type;
-    line.textContent = String(message);
-    consoleOutput.appendChild(line);
-    consoleMessages++;
-    consoleCount.textContent = consoleMessages + " mensagens";
-    consoleOutput.scrollTop = consoleOutput.scrollHeight;
-  }
-
-  function clearConsole() {
-    consoleOutput.replaceChildren();
-    consoleMessages = 0;
-    consoleCount.textContent = "0 mensagens";
-  }
-
-  function saveProject(showMessage = true) {
-    files[activeFile] = editor.value;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        files,
-        activeFile
-      }));
-      saveStatus.textContent = "SALVO ✓";
-      if (showMessage) addConsole("Projeto salvo neste dispositivo.", "success");
-      return true;
-    } catch (error) {
-      saveStatus.textContent = "ERRO AO SALVAR";
-      addConsole("Não foi possível salvar. Exporte uma cópia do projeto.", "error");
-      return false;
-    }
-  }
-
-  function loadProject() {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const data = JSON.parse(saved);
-        if (data && data.files && typeof data.files === "object") {
-          files = data.files;
-          activeFile = typeof data.activeFile === "string" &&
-            files[data.activeFile] !== undefined
-            ? data.activeFile : Object.keys(files)[0];
-        }
-      }
-    } catch (error) {
-      addConsole("Não foi possível recuperar o salvamento anterior.", "warn");
-    }
-
-    if (!Object.keys(files).length) {
-      files = { ...defaults };
-      activeFile = "index.html";
-    }
-    if (files[activeFile] === undefined) activeFile = Object.keys(files)[0];
-  }
-
-  function renderFiles() {
-    fileList.replaceChildren();
-
-    Object.keys(files).forEach(name => {
-      const button = document.createElement("button");
-      button.className = "file-item" + (name === activeFile ? " active" : "");
-      button.textContent = "📄 " + name;
-      button.title = name;
-      button.addEventListener("click", () => openFile(name));
-      fileList.appendChild(button);
-    });
-  }
-
-  function openFile(name) {
-    if (files[activeFile] !== undefined) files[activeFile] = editor.value;
-    if (files[name] === undefined) return;
-
-    activeFile = name;
-    editor.value = files[name];
-    currentFile.textContent = name;
-    renderFiles();
-    saveStatus.textContent = "EDITANDO";
-  }
-
-  function createFile() {
-    const name = prompt("Nome do arquivo (ex.: pagina.html):");
-    if (name === null) return;
-
-    const cleanName = name.trim();
-    if (!cleanName || cleanName.length > 60 ||
-        /[\\/:*?"<>|]/.test(cleanName)) {
-      alert("Nome de arquivo inválido.");
-      return;
-    }
-    if (files[cleanName] !== undefined) {
-      alert("Esse arquivo já existe.");
-      return;
-    }
-
-    files[activeFile] = editor.value;
-    files[cleanName] = "";
-    openFile(cleanName);
-    saveProject(false);
-    addConsole("Arquivo criado: " + cleanName, "success");
-  }
-
-  function deleteFile() {
-    if (Object.keys(files).length <= 1) {
-      alert("O projeto precisa ter pelo menos um arquivo.");
-      return;
-    }
-    if (!confirm("Excluir " + activeFile + "?")) return;
-
-    const removed = activeFile;
-    delete files[removed];
-    activeFile = Object.keys(files)[0];
-    editor.value = files[activeFile];
-    currentFile.textContent = activeFile;
-    renderFiles();
-    saveProject(false);
-    addConsole("Arquivo excluído: " + removed, "warn");
-  }
-
-  function downloadFile(filename, content, type) {
-    const blob = new Blob([content], { type });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
-
-  function exportProject() {
-    files[activeFile] = editor.value;
-    const data = JSON.stringify({
-      app: "BAD BOYS CODE STUDIO",
-      version: "2.1",
-      files
-    }, null, 2);
-    downloadFile("bad-boys-projeto.json", data, "application/json");
-    addConsole("Backup do projeto exportado.", "success");
-  }
-
-  function importProject(file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result);
-        if (!data || !data.files || typeof data.files !== "object" ||
-            Array.isArray(data.files)) {
-          throw new Error("Formato de projeto inválido.");
-        }
-
-        const imported = {};
-        Object.entries(data.files).forEach(([name, content]) => {
-          if (typeof name !== "string" || typeof content !== "string" ||
-              name.length > 60 || /[\\/:*?"<>|]/.test(name)) {
-            throw new Error("Arquivo inválido no projeto.");
-          }
-          imported[name] = content;
-        });
-
-        if (!Object.keys(imported).length) {
-          throw new Error("O projeto não contém arquivos.");
-        }
-
-        files = imported;
-        activeFile = files["index.html"] !== undefined
-          ? "index.html" : Object.keys(files)[0];
-        editor.value = files[activeFile];
-        currentFile.textContent = activeFile;
-        renderFiles();
-        saveProject(false);
-        addConsole("Projeto importado com sucesso!", "success");
-      } catch (error) {
-        alert("Não foi possível importar: " + error.message);
-      }
-    };
-    reader.onerror = () => alert("Erro ao ler o arquivo.");
-    reader.readAsText(file);
-  }
-
-  function makePreview() {
-    files[activeFile] = editor.value;
-
-    let html = files["index.html"] || "";
-    const css = files["style.css"] || "";
-    const js = files["script.js"] || "";
-
-    if (!html.trim()) html = "<!DOCTYPE html><html><head></head><body></body></html>";
-    if (!/<html[\s>]/i.test(html)) {
-      html = "<!DOCTYPE html><html><head></head><body>" + html + "</body></html>";
-    }
-
-    const bridge = `
-      (function(){
-        function send(level,args){
-          var values = Array.from(args).map(function(item){
-            try {
-              if (typeof item === "object") return JSON.stringify(item);
-              return String(item);
-            } catch(e) { return "[objeto]"; }
-          });
-          parent.postMessage({
-            type:"badboys-console",
-            level:level,
-            message:values.join(" ")
-          },"*");
-        }
-        ["log","info","warn","error"].forEach(function(level){
-          var original = console[level];
-          console[level] = function(){
-            send(level,arguments);
-            original.apply(console,arguments);
-          };
-        });
-        window.addEventListener("error",function(event){
-          send("error",[event.message + " (linha " + event.lineno + ")"]);
-        });
-        window.addEventListener("unhandledrejection",function(event){
-          send("error",["Promise: " + event.reason]);
-        });
-        console.info("Pré-visualização iniciada.");
-      })();
-    `;
-
-    const scriptOpen = "<scr" + "ipt>";
-    const scriptClose = "</scr" + "ipt>";
-
-    const styleTag = css
-      ? "<style>" + css.replace(/<\/style/gi, "<\\/style") + "</style>"
-      : "";
-
-    const bridgeTag = scriptOpen + bridge + scriptClose;
-    const userScriptTag = js
-      ? scriptOpen + js + scriptClose
-      : "";
-
-    if (/<\/head>/i.test(html)) {
-      html = html.replace(/<\/head>/i, styleTag + "</head>");
-    } else if (/<html[^>]*>/i.test(html)) {
-      html = html.replace(/<html[^>]*>/i, match =>
-        match + "<head>" + styleTag + "</head>");
-    } else {
-      html = "<head>" + styleTag + "</head>" + html;
-    }
-
-    const extraScripts = bridgeTag + userScriptTag;
-    if (/<\/body>/i.test(html)) {
-      html = html.replace(/<\/body>/i, extraScripts + "</body>");
-    } else {
-      html += extraScripts;
-    }
-
-    preview.srcdoc = html;
-    addConsole("Pré-visualização atualizada.", "success");
-  }
-
-  editor.addEventListener("input", () => {
-    files[activeFile] = editor.value;
-    saveStatus.textContent = "ALTERAÇÕES...";
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => saveProject(false), 700);
-  });
-
-  editor.addEventListener("keydown", event => {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      const start = editor.selectionStart;
-      const end = editor.selectionEnd;
-      editor.setRangeText("  ", start, end, "end");
-      editor.dispatchEvent(new Event("input"));
-    }
-  });
-
-  document.getElementById("runBtn").addEventListener("click", makePreview);
-  document.getElementById("saveBtn").addEventListener("click", () => saveProject(true));
-  document.getElementById("newBtn").addEventListener("click", createFile);
-  document.getElementById("exportBtn").addEventListener("click", exportProject);
-  document.getElementById("clearConsoleBtn").addEventListener("click", clearConsole);
-
-  document.getElementById("importBtn").addEventListener("click", () => {
-    document.getElementById("importInput").click();
-  });
-
-  document.getElementById("importInput").addEventListener("change", event => {
-    const file = event.target.files && event.target.files[0];
-    if (file) importProject(file);
-    event.target.value = "";
-  });
-
-  window.addEventListener("message", event => {
-    if (event.source !== preview.contentWindow) return;
-    const data = event.data;
-    if (!data || data.type !== "badboys-console") return;
-
-    const level = ["log","info","warn","error"].includes(data.level)
-      ? data.level : "log";
-    addConsole(data.message, level);
-  });
-
-  loadProject();
-  editor.value = files[activeFile] || "";
-  currentFile.textContent = activeFile;
-  renderFiles();
-  saveProject(false);
-  makePreview();
+(()=>{'use strict';
+const KEY='bbcs30-projects-v1', ACTIVE='bbcs30-active-v1';
+const starter={
+ 'index.html':'<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Meu projeto</title>\n</head>\n<body>\n  <h1>Olá, Bad Boys! ⚡</h1>\n  <p>Seu ambiente de desenvolvimento está pronto.</p>\n  <button onclick="saudar()">Testar JavaScript</button>\n</body>\n</html>',
+ 'style.css':'body {\n  font-family: Arial, sans-serif;\n  background: #10172a;\n  color: white;\n  text-align: center;\n  padding: 40px 15px;\n}\nh1 { color: #35e7ff; }\nbutton { padding: 12px 20px; border: 0; border-radius: 8px; }',
+ 'script.js':'function saudar() {\n  alert("Bad Boys na área! ⚡");\n  console.log("JavaScript funcionando!");\n}'
+};
+let projects={},project='Meu Projeto',files={},active='index.html',opened=[],msgN=0,saveTimer,modalAction=null,deferredInstall=null;
+const $=id=>document.getElementById(id),editor=$('editor');
+function say(t,kind='log'){let d=document.createElement('div');d.className='msg '+kind;d.textContent=String(t);$('messages').append(d);msgN++;$('msgCount').textContent=msgN;$('messages').scrollTop=$('messages').scrollHeight}
+function clearMessages(){$('messages').replaceChildren();msgN=0;$('msgCount').textContent='0'}
+function validName(n){return !!n&&n.length<=70&&!/[\\/:*?"<>|]/.test(n)}
+function currentToFiles(){if(active&&files[active]!==undefined)files[active]=editor.value}
+function persist(show=true){currentToFiles();try{projects[project]=files;localStorage.setItem(KEY,JSON.stringify(projects));localStorage.setItem(ACTIVE,project);$('saveState').textContent='Salvo automaticamente ✓';if(show)say('Projeto salvo neste dispositivo.','ok');return true}catch(e){$('saveState').textContent='Falha ao salvar';say('Armazenamento cheio ou indisponível. Exporte um backup.','error');return false}}
+function load(){try{projects=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){projects={}}project=localStorage.getItem(ACTIVE)||'Meu Projeto';if(projects[project])files=projects[project];else{files={...starter};projects[project]=files}if(!files||!Object.keys(files).length)files={...starter};active=files['index.html']!==undefined?'index.html':Object.keys(files)[0];opened=Object.keys(files).slice(0,5);if(!opened.includes(active))opened.unshift(active);editor.value=files[active]||''}
+function escapeHTML(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function highlight(src){let s=escapeHTML(src);const ext=active.split('.').pop().toLowerCase();if(ext==='html'||ext==='htm'){s=s.replace(/(&lt;!--[\s\S]*?--&gt;)/g,'<span class="tok-comment">$1</span>');s=s.replace(/(&lt;\/?)([\w-]+)/g,'$1<span class="tok-tag">$2</span>');s=s.replace(/([\w:-]+)(=)(&quot;.*?&quot;|&#39;.*?&#39;|".*?"|'.*?')/g,'<span class="tok-attr">$1</span>$2<span class="tok-str">$3</span>')}else if(ext==='css'){s=s.replace(/\/\*[\s\S]*?\*\//g,m=>'<span class="tok-comment">'+m+'</span>');s=s.replace(/(["'][^"']*["'])/g,'<span class="tok-str">$1</span>');s=s.replace(/([.#]?[\w-]+)(\s*)(?=\{)/g,'<span class="tok-tag">$1</span>$2');s=s.replace(/\b(\d+(?:px|em|rem|%|vh|vw)?)\b/g,'<span class="tok-num">$1</span>')}else if(ext==='js'){s=s.replace(/(\/\/[^\n]*|\/\*[\s\S]*?\*\/)/g,'<span class="tok-comment">$1</span>');s=s.replace(/(["'`])(?:\\.|(?!\1)[^\\])*?\1/g,m=>'<span class="tok-str">'+m+'</span>');s=s.replace(/\b(const|let|var|function|return|if|else|for|while|new|class|this|true|false|null|undefined|async|await|try|catch|throw)\b/g,'<span class="tok-key">$1</span>');s=s.replace(/\b(\d+(?:\.\d+)?)\b/g,'<span class="tok-num">$1</span>');s=s.replace(/\b([A-Za-z_$][\w$]*)(?=\s*\()/g,'<span class="tok-fn">$1</span>')}return s+'\n'}
+function paint(){ $('colored').innerHTML=highlight(editor.value);let count=Math.max(1,editor.value.split('\n').length);$('gutter').textContent=Array.from({length:count},(_,i)=>i+1).join('\n');syncScroll();$('activeName').textContent=active;$('language').textContent=(active.split('.').pop()||'TXT').toUpperCase()}
+function syncScroll(){const pre=document.querySelector('.highlight');pre.scrollTop=editor.scrollTop;pre.scrollLeft=editor.scrollLeft;$('gutter').scrollTop=editor.scrollTop}
+function draw(){const list=$('fileList'),tabs=$('tabs');list.replaceChildren();tabs.replaceChildren();Object.keys(files).forEach(name=>{let b=document.createElement('button');b.className='filebtn'+(name===active?' active':'');b.textContent='📄 '+name;b.onclick=()=>open(name);list.append(b)});opened=opened.filter(n=>files[n]!==undefined);if(!opened.includes(active))opened.push(active);opened.forEach(name=>{let b=document.createElement('button');b.className='tab'+(name===active?' active':'');b.textContent=name;b.onclick=()=>open(name);tabs.append(b)});$('projectName').textContent='Projeto: '+project}
+function open(name){currentToFiles();active=name;if(!opened.includes(name))opened.push(name);editor.value=files[name]||'';draw();paint();$('saveState').textContent='Editando'}
+function ask(title,placeholder,action){$('modalTitle').textContent=title;$('modalInput').value='';$('modalInput').placeholder=placeholder;$('modal').classList.add('show');modalAction=action;$('modalInput').focus()}
+function closeModal(){$('modal').classList.remove('show');modalAction=null}
+function createFile(){ask('Criar arquivo','ex.: jogo.html',name=>{if(!validName(name))return alert('Nome inválido.');if(files[name]!==undefined)return alert('Esse arquivo já existe.');currentToFiles();files[name]='';open(name);persist(false);say('Arquivo criado: '+name,'ok')})}
+function renameFile(){ask('Renomear arquivo',active,name=>{if(!validName(name))return alert('Nome inválido.');if(files[name]!==undefined)return alert('Já existe um arquivo com esse nome.');currentToFiles();files[name]=files[active];delete files[active];opened=opened.map(n=>n===active?name:n);active=name;editor.value=files[name];draw();paint();persist(false)})}
+function deleteFile(){if(Object.keys(files).length<2)return alert('Mantenha pelo menos um arquivo no projeto.');if(!confirm('Excluir '+active+'?'))return;delete files[active];opened=opened.filter(n=>n!==active);active=Object.keys(files)[0];editor.value=files[active];draw();paint();persist(false);say('Arquivo excluído.','warn')}
+function newProject(){ask('Novo projeto','Nome do projeto',name=>{name=name.trim();if(!name||name.length>50)return alert('Nome inválido.');if(!confirm('Criar projeto novo? O projeto atual continuará salvo.'))return;persist(false);project=name;files={...starter};projects[project]=files;active='index.html';opened=[active];editor.value=files[active];draw();paint();persist(false);say('Novo projeto criado: '+name,'ok')})}
+function download(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+function backup(){persist(false);download('bad-boys-backup.json',JSON.stringify({app:'BAD BOYS CODE STUDIO',version:'3.0',project,files},null,2),'application/json');say('Backup exportado. Guarde esse arquivo!','ok')}
+function restore(file){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.files||typeof d.files!=='object'||Array.isArray(d.files))throw Error('Arquivo de backup inválido');let f={};for(const [n,v] of Object.entries(d.files)){if(!validName(n)||typeof v!=='string')throw Error('Arquivo inválido no backup');f[n]=v}if(!Object.keys(f).length)throw Error('Backup vazio');persist(false);project=(d.project||'Projeto importado').slice(0,50);files=f;projects[project]=files;active=files['index.html']!==undefined?'index.html':Object.keys(files)[0];opened=[active];editor.value=files[active];draw();paint();persist(false);say('Backup importado com sucesso.','ok')}catch(e){alert('Não foi possível importar: '+e.message)}};r.readAsText(file)}
+function run(){currentToFiles();let html=files['index.html']||'<html><body></body></html>',css=files['style.css']||'',js=files['script.js']||'';const openTag='<scr'+'ipt>',closeTag='</scr'+'ipt>';const bridge=`(function(){['log','info','warn','error'].forEach(function(k){var old=console[k];console[k]=function(){parent.postMessage({bbcs:true,level:k,text:Array.from(arguments).map(function(x){try{return typeof x==='object'?JSON.stringify(x):String(x)}catch(e){return '[objeto]'}}).join(' ')},'*');old.apply(console,arguments)}});window.onerror=function(m,s,l){parent.postMessage({bbcs:true,level:'error',text:m+' (linha '+l+')'},'*')}})();`;let style=css?'<style>'+css.replace(/<\/style/gi,'<\\/style')+'</style>':'';if(/<\/head>/i.test(html))html=html.replace(/<\/head>/i,style+'</head>');else html='<head>'+style+'</head>'+html;let scripts=openTag+bridge+closeTag+(js?openTag+js+closeTag:'');if(/<\/body>/i.test(html))html=html.replace(/<\/body>/i,scripts+'</body>');else html+=scripts;$('preview').srcdoc=html;say('Pré-visualização executada.','ok')}
+editor.addEventListener('input',()=>{files[active]=editor.value;paint();$('saveState').textContent='Alterações pendentes…';clearTimeout(saveTimer);saveTimer=setTimeout(()=>persist(false),650)});
+editor.addEventListener('scroll',syncScroll);
+editor.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();persist(true)}if(e.key==='Tab'){e.preventDefault();let a=editor.selectionStart,b=editor.selectionEnd;editor.setRangeText('  ',a,b,'end');editor.dispatchEvent(new Event('input'))}});
+$('run').onclick=run;$('refresh').onclick=run;$('save').onclick=()=>persist(true);$('newProject').onclick=newProject;$('newFile').onclick=createFile;$('sideNew').onclick=createFile;$('rename').onclick=renameFile;$('delete').onclick=deleteFile;$('backup').onclick=backup;$('restore').onclick=()=>$('restoreFile').click();$('restoreFile').onchange=e=>{if(e.target.files[0])restore(e.target.files[0]);e.target.value=''};$('clearConsole').onclick=clearMessages;$('cancelModal').onclick=closeModal;$('confirmModal').onclick=()=>{let v=$('modalInput').value.trim();if(modalAction)modalAction(v);closeModal()};$('modalInput').onkeydown=e=>{if(e.key==='Enter')$('confirmModal').click()};$('find').onclick=()=>{ask('Localizar texto','Texto para localizar',v=>{if(!v)return;let p=editor.value.indexOf(v);if(p<0)return say('Texto não encontrado.','warn');editor.focus();editor.setSelectionRange(p,p+v.length);let lines=editor.value.slice(0,p).split('\n').length;editor.scrollTop=(lines-3)*19.2})};$('replace').onclick=()=>{ask('Localizar e substituir','Texto para localizar',find=>{if(!find)return;ask('Substituir por','Novo texto',rep=>{let before=editor.value;let after=before.split(find).join(rep);if(before===after)return say('Nenhuma ocorrência encontrada.','warn');editor.value=after;editor.dispatchEvent(new Event('input'));say('Substituição concluída.','ok')})})};
+window.addEventListener('message',e=>{if(e.source!==$('preview').contentWindow||!e.data||!e.data.bbcs)return;let k=['log','info','warn','error'].includes(e.data.level)?e.data.level:'log';say(e.data.text,k==='info'?'info':k)});
+window.addEventListener('beforeunload',()=>{try{currentToFiles();localStorage.setItem(KEY,JSON.stringify({...projects,[project]:files}))}catch(e){}});
+load();draw();paint();persist(false);run();
+if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').then(()=>{$('pwaState').textContent='PWA: pronto • offline habilitado'}).catch(()=>{$('pwaState').textContent='PWA: abra pelo HTTPS'}))}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('install').hidden=false});
+$('install').onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('install').hidden=true};
+if(window.matchMedia('(display-mode: standalone)').matches||navigator.standalone)$('pwaState').textContent='PWA: instalado no dispositivo';
 })();
 </script>
-</body>
-</html>
+</body></html>
