@@ -36,5 +36,9 @@ Este arquivo registra decisões relevantes, alterações e validações para fac
 - Atualizado `.github/workflows/quality.yml` com job separado de regressão Chromium. A instalação do Playwright e do navegador ocorre somente no runner do GitHub.
 - Atualizados README e checklist para distinguir validação estática, teste automatizado no Chromium e teste físico no Android.
 - Escopo de segurança: sem mudanças nas chaves de armazenamento, no algoritmo de backup/importação, no sandbox, no Service Worker ou nos arquivos de execução do aplicativo.
-- Resultado do GitHub Actions: aguardando execução após o commit desta etapa; não declarar testes aprovados até inspecionar os logs.
+- Primeira tentativa de navegador: o runner `ubuntu-latest` já estava em Ubuntu 26.04, incompatível com a versão Playwright fixada; o job foi migrado para a imagem oficial `mcr.microsoft.com/playwright:v1.56.1-noble`, que traz Chromium e dependências compatíveis.
+- O primeiro ensaio também identificou que um listener genérico de `pageerror` capturava uma exceção `SecurityError` associada ao contexto sandboxed da prévia. O listener foi removido do harness; nenhum atributo/permissão do iframe do aplicativo foi alterado.
+- Execução completa do GitHub Actions concluída com sucesso no run 45200328619 (commit `6608a4e1e840c14c9cef09e5cf11f5fb6ff19ffc`): job estático aprovado e job de regressão Chromium aprovado.
+- Resultado da suíte Playwright: 4 testes aprovados em 3,2 segundos — persistência após recarregar, pré-visualização HTML/CSS/JS, backup/exportação e importação com conflito sem duplicatas, e rejeição de backup inválido sem sobrescrever o armazenamento.
+- O validador estático também terminou com sucesso; o job da etapa 2 havia reportado 31 verificações aprovadas e 0 falhas.
 - Limitação: o Chromium em CI não comprova compatibilidade física Android, instalação PWA ou comportamento offline em aparelho real.
