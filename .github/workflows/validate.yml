@@ -24,10 +24,11 @@ jobs:
           const fs = require('node:fs');
           const vm = require('node:vm');
           const html = fs.readFileSync('index.html', 'utf8');
-          const scripts = [...html.matchAll(/<script>([\\s\\S]*?)<\\/script>/gi)];
-          if (!scripts.length) throw new Error('Nenhum script inline encontrado.');
-          for (const [i, match] of scripts.entries()) new vm.Script(match[1], { filename: 'index.html:inline-' + (i + 1) });
-          console.log('JavaScript inline: sintaxe válida (' + scripts.length + ' bloco(s)).');
+          const start = html.indexOf('<script>');
+          const end = html.indexOf('</script>', start);
+          if (start < 0 || end < 0) throw new Error('Nenhum script inline encontrado.');
+          new vm.Script(html.slice(start + 8, end), { filename: 'index.html:inline' });
+          console.log('JavaScript inline: sintaxe válida.');
           NODE
       - name: Validate service worker
         run: node --check sw.js
