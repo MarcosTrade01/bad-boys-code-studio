@@ -58,6 +58,7 @@ Não transforme inspeção em alegação de teste executado.
 ## Verificação automatizada do repositório
 - [ ] Conferir o resultado do fluxo **Verificações do projeto** na aba Actions do GitHub.
 - [ ] Confirmar que o passo `node scripts/validate-project.mjs` terminou com sucesso.
-- [ ] Se falhar, ler a mensagem exata e corrigir a causa antes de considerar a atualização validada.
+- [ ] Confirmar que o job **Regressão no Chromium** terminou com sucesso.
+- [ ] Se algum job falhar, ler a mensagem exata e corrigir a causa antes de considerar a atualização validada.
 
-O validador estático não substitui os testes manuais de criação/edição de projetos, backup/importação, pré-visualização e PWA no Android.
+O validador estático não substitui os testes de interação. A suíte Playwright executa o aplicativo real no Chromium e cobre criação/salvamento de projetos e arquivos, persistência após recarregar, pré-visualização, exportação/importação e proteção contra backup inválido. Ela não substitui a validação física no Android nem comprova o comportamento offline/PWA em aparelhos reais.
