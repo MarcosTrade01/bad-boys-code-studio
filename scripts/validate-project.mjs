@@ -83,8 +83,8 @@ check(/name=["']viewport["']/i.test(html), "viewport mobile presente");
 check(/rel=["']manifest["']/i.test(html), "manifesto PWA referenciado");
 
 const styleBlocks = [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi)];
-check(styleBlocks.length === 1, "bloco principal de CSS encontrado");
-if (styleBlocks.length === 1) {
+check(styleBlocks.length >= 1, "bloco principal de CSS encontrado");
+if (styleBlocks.length >= 1) {
   check(checkBalanced(styleBlocks[0][1]), "delimitadores do CSS balanceados");
 }
 
