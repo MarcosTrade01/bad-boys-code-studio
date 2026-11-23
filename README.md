@@ -30,6 +30,8 @@ Preservar os projetos do usuário e a compatibilidade Android/PWA é prioridade.
 A pré-visualização injeta especificamente os arquivos `style.css` e `script.js` no `index.html`. Não há backend nem sincronização automática de projetos entre dispositivos.
 
 ## Verificações automáticas
-O GitHub Actions executa verificações estáticas em atualizações da branch `main`, em pull requests direcionados a `main` e quando o fluxo é iniciado manualmente. O validador verifica a sintaxe dos scripts JavaScript, a estrutura básica do HTML/CSS, o manifesto PWA e algumas proteções críticas do editor.
+O GitHub Actions executa verificações estáticas em atualizações da branch `main`, em pull requests direcionados a `main` e quando o fluxo é iniciado manualmente. O validador estático confere a estrutura básica e a sintaxe do HTML, CSS, JavaScript e PWA.
 
-Essas verificações não substituem testes de interação no navegador nem testes reais no Android. Não é necessário instalar Node.js no celular para que o GitHub execute o fluxo.
+Um segundo job instala Playwright apenas no runner temporário do GitHub e executa testes de interação no Chromium sobre o aplicativo real. A suíte cobre criação e salvamento de projetos/arquivos, persistência após recarregar, pré-visualização, exportação/importação de backup e rejeição de backup inválido. Nenhuma dependência de teste é adicionada ao aplicativo publicado e não é necessário instalar ferramentas no Android.
+
+Os testes no Chromium não substituem testes físicos no Android nem comprovam o funcionamento offline/PWA em aparelhos reais.
