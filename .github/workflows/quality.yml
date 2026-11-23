@@ -23,3 +23,21 @@ jobs:
           node-version: 24
       - name: Validar HTML, CSS, JavaScript e PWA
         run: node scripts/validate-project.mjs
+
+  browser-regression:
+    name: Regressão no Chromium
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Instalar Playwright no runner (sem alterar dependências do app)
+        run: npm install --no-save --no-package-lock @playwright/test@1.56.1
+      - name: Instalar Chromium e dependências do navegador
+        run: npx playwright install --with-deps chromium
+      - name: Executar testes de regressão do editor
+        run: npx playwright test
