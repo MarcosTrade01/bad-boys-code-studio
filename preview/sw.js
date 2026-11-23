@@ -1,6 +1,6 @@
 /* BAD BOYS CODE STUDIO 4.0 — Service Worker */
 const CACHE_PREFIX = "bbcs-preview-";
-const CACHE_NAME = "bbcs-preview-studio-v5";
+const CACHE_NAME = "bbcs-preview-studio-v6";
 const LEGACY_CACHE_NAMES = [];
 const APP_SHELL = [
   "./",
