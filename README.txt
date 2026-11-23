@@ -1,6 +1,10 @@
-BAD BOYS CODE STUDIO 3.1 — PACOTE PWA
+BAD BOYS CODE STUDIO 4.0 — PWA
 
-ARQUIVOS:
+OBJETIVO
+Editor web leve, instalável no Android, com gerenciamento de projetos,
+arquivos, pré-visualização isolada, console e backups completos.
+
+ARQUIVOS
 - index.html
 - manifest.webmanifest
 - sw.js
@@ -8,19 +12,20 @@ ARQUIVOS:
 - icon-512.png
 - README.txt
 
-INSTALAÇÃO/ATUALIZAÇÃO:
-1. Envie os seis arquivos para a raiz do repositório GitHub Pages.
-2. Substitua os arquivos com o mesmo nome.
-3. Faça commit diretamente na branch main.
-4. Aguarde o GitHub Pages publicar.
-5. Abra o site no Chrome. Se necessário, feche o app instalado e abra o endereço em uma aba anônima uma vez para atualizar.
-6. Os dados de projetos existentes são preservados: a versão 3.1 mantém as chaves locais da versão 3.0.
+ATUALIZAÇÃO
+1. Publique os arquivos na raiz do GitHub Pages.
+2. Faça a revisão da branch antes de integrar à main.
+3. Aguarde o GitHub Pages publicar.
+4. Feche o app instalado e abra o site no Chrome para atualizar.
+5. Se a versão antiga persistir, limpe somente o cache do site no navegador.
+   Não limpe os dados do site sem antes exportar seus projetos.
 
-PROJETOS:
-- Use MEUS PROJETOS para abrir e alternar projetos.
-- Cada projeto possui seus próprios arquivos.
-- Os projetos são armazenados no navegador deste dispositivo.
-- Use EXPORTAR para fazer backup regularmente.
+DADOS E COMPATIBILIDADE
+- Mantém as chaves locais bbcs30-projects-v1 e bbcs30-active-v1.
+- Os projetos existentes são migrados durante a inicialização.
+- O backup completo exporta todos os projetos.
+- Faça backups regulares; os dados ficam no armazenamento do navegador.
 
-NOTA:
-O editor executa código criado pelo usuário na prévia. Não execute código de origem desconhecida.
+SEGURANÇA
+A prévia executa código criado pelo usuário em um iframe isolado.
+Não execute projetos de origem desconhecida.
