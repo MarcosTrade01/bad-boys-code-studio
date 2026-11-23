@@ -1,6 +1,7 @@
 /* BAD BOYS CODE STUDIO 4.0 — Service Worker */
 const CACHE_PREFIX = "bbcs-";
 const CACHE_NAME = "bbcs-studio-v4";
+const LEGACY_CACHE_NAMES = ["bad-boys-code-studio-v3-1"];
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -28,7 +29,7 @@ self.addEventListener("activate", event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
     await Promise.all(keys
-      .filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
+      .filter(key => (key.startsWith(CACHE_PREFIX) || LEGACY_CACHE_NAMES.includes(key)) && key !== CACHE_NAME)
       .map(key => caches.delete(key)));
     await self.clients.claim();
   })());
