@@ -1,0 +1,42 @@
+name: Validate BAD BOYS CODE STUDIO
+on:
+  push:
+    branches:
+      - "dev/**"
+      - "backup/**"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate inline JavaScript
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const vm = require('node:vm');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const scripts = [...html.matchAll(/<script>([\\s\\S]*?)<\\/script>/gi)];
+          if (!scripts.length) throw new Error('Nenhum script inline encontrado.');
+          for (const [i, match] of scripts.entries()) new vm.Script(match[1], { filename: 'index.html:inline-' + (i + 1) });
+          console.log('JavaScript inline: sintaxe válida (' + scripts.length + ' bloco(s)).');
+          NODE
+      - name: Validate service worker
+        run: node --check sw.js
+      - name: Validate PWA manifest
+        run: node -e "JSON.parse(require('node:fs').readFileSync('manifest.webmanifest','utf8')); console.log('Manifest JSON válido.')"
+      - name: Check required PWA files
+        run: |
+          test -s index.html
+          test -s sw.js
+          test -s manifest.webmanifest
+          test -s icon-192.png
+          test -s icon-512.png
