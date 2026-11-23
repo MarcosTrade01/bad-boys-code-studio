@@ -1,26 +1,16 @@
-BAD BOYS CODE STUDIO 3.1 — PACOTE PWA
+BAD BOYS CODE STUDIO — DOCUMENTAÇÃO ATUALIZADA
 
-ARQUIVOS:
-- index.html
-- manifest.webmanifest
-- sw.js
-- icon-192.png
-- icon-512.png
-- README.txt
+Este arquivo é mantido apenas por compatibilidade com o pacote antigo da versão 3.1.
 
-INSTALAÇÃO/ATUALIZAÇÃO:
-1. Envie os seis arquivos para a raiz do repositório GitHub Pages.
-2. Substitua os arquivos com o mesmo nome.
-3. Faça commit diretamente na branch main.
-4. Aguarde o GitHub Pages publicar.
-5. Abra o site no Chrome. Se necessário, feche o app instalado e abra o endereço em uma aba anônima uma vez para atualizar.
-6. Os dados de projetos existentes são preservados: a versão 3.1 mantém as chaves locais da versão 3.0.
+A documentação oficial e atual do projeto está em README.md:
+https://github.com/MarcosTrade01/bad-boys-code-studio/blob/main/README.md
 
-PROJETOS:
-- Use MEUS PROJETOS para abrir e alternar projetos.
-- Cada projeto possui seus próprios arquivos.
-- Os projetos são armazenados no navegador deste dispositivo.
-- Use EXPORTAR para fazer backup regularmente.
+Aplicativo publicado:
+https://marcostrade01.github.io/bad-boys-code-studio/
 
-NOTA:
-O editor executa código criado pelo usuário na prévia. Não execute código de origem desconhecida.
+A versão atual é BAD BOYS CODE STUDIO 4.0. Consulte README.md e os documentos em docs/ para instruções, arquitetura e qualidade.
+
+IMPORTANTE:
+- Os projetos do usuário ficam no armazenamento local do navegador.
+- Exporte um backup antes de limpar os dados do site ou trocar de dispositivo.
+- Não substitua os arquivos da versão atual por instruções antigas deste README.txt.
