@@ -18,11 +18,15 @@ function check(condition, message) {
 
 function read(relativePath) {
   const fullPath = path.join(root, relativePath);
-  check(fs.existsSync(fullPath), `arquivo presente: ${relativePath}`);
+  if (!fs.existsSync(fullPath)) {
+    check(false, `arquivo presente: ${relativePath}`);
+    return "";
+  }
+  check(true, `arquivo presente: ${relativePath}`);
   return fs.readFileSync(fullPath, "utf8");
 }
 
-function checkBalanced(source, label) {
+function checkBalanced(source) {
   const stack = [];
   let quote = null;
   let comment = false;
@@ -74,17 +78,17 @@ const sw = read("sw.js");
 const manifestText = read("manifest.webmanifest");
 
 check(/<!doctype html>/i.test(html), "HTML declara DOCTYPE");
-check(/<html\\s+lang=["']pt-BR["']/i.test(html), "HTML declara idioma pt-BR");
+check(/<html\s+lang=["']pt-BR["']/i.test(html), "HTML declara idioma pt-BR");
 check(/name=["']viewport["']/i.test(html), "viewport mobile presente");
 check(/rel=["']manifest["']/i.test(html), "manifesto PWA referenciado");
 
-const styleBlocks = [...html.matchAll(/<style\\b[^>]*>([\\s\\S]*?)<\\/style\\s*>/gi)];
+const styleBlocks = [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi)];
 check(styleBlocks.length === 1, "bloco principal de CSS encontrado");
 if (styleBlocks.length === 1) {
-  check(checkBalanced(styleBlocks[0][1], "CSS"), "delimitadores do CSS balanceados");
+  check(checkBalanced(styleBlocks[0][1]), "delimitadores do CSS balanceados");
 }
 
-const scriptBlocks = [...html.matchAll(/<script\\b[^>]*>([\\s\\S]*?)<\\/script\\s*>/gi)];
+const scriptBlocks = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script\s*>/gi)];
 check(scriptBlocks.length >= 1, "script inline do aplicativo encontrado");
 for (let i = 0; i < scriptBlocks.length; i += 1) {
   try {
@@ -95,19 +99,19 @@ for (let i = 0; i < scriptBlocks.length; i += 1) {
   }
 }
 
-const ids = [...html.matchAll(/\\bid=["']([^"']+)["']/g)].map(match => match[1]);
+const ids = [...html.matchAll(/\bid=["']([^"']+)["']/g)].map(match => match[1]);
 const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
 check(duplicateIds.length === 0, duplicateIds.length
   ? `IDs HTML duplicados: ${[...new Set(duplicateIds)].join(", ")}`
   : "IDs HTML sem duplicatas");
 
-const iframe = html.match(/<iframe\\b([^>]*)>/i);
+const iframe = html.match(/<iframe\b([^>]*)>/i);
 check(Boolean(iframe), "iframe de pré-visualização encontrado");
 if (iframe) {
   const sandbox = iframe[1].match(/sandbox=["']([^"']*)["']/i);
   check(Boolean(sandbox), "iframe possui atributo sandbox");
   if (sandbox) {
-    const permissions = sandbox[1].split(/\\s+/);
+    const permissions = sandbox[1].split(/\s+/);
     check(permissions.includes("allow-scripts"), "sandbox permite scripts da pré-visualização");
     check(!permissions.includes("allow-same-origin"), "sandbox não concede same-origin");
     check(!permissions.includes("allow-top-navigation"), "sandbox bloqueia navegação do contexto superior");
@@ -116,10 +120,10 @@ if (iframe) {
 
 check(/bbcs30-projects-v1/.test(html), "chave atual de projetos preservada");
 check(/bbcs30-active-v1/.test(html), "chave atual do projeto ativo preservada");
-check(/function\\s+persist\\s*\\(/.test(html), "rotina de persistência presente");
-check(/function\\s+importBackup\\s*\\(/.test(html), "rotina de importação de backup presente");
-check(/function\\s+backup\\s*\\(/.test(html), "rotina de exportação de backup presente");
-check(/style\\.css/.test(html) && /script\\.js/.test(html), "arquivos padrão da pré-visualização reconhecidos");
+check(/function\s+persist\s*\(/.test(html), "rotina de persistência presente");
+check(/function\s+importBackup\s*\(/.test(html), "rotina de importação de backup presente");
+check(/function\s+backup\s*\(/.test(html), "rotina de exportação de backup presente");
+check(/style\.css/.test(html) && /script\.js/.test(html), "arquivos padrão da pré-visualização reconhecidos");
 
 try {
   new vm.Script(sw, { filename: "sw.js" });
@@ -146,5 +150,5 @@ if (manifest) {
   }
 }
 
-console.log(`\\nResultado: ${passed} verificações aprovadas; ${failures.length} falha(s).`);
+console.log(`\nResultado: ${passed} verificações aprovadas; ${failures.length} falha(s).`);
 if (failures.length) process.exitCode = 1;
