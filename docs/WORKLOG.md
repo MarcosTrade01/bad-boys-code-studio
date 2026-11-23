@@ -23,5 +23,7 @@ Este arquivo registra decisões relevantes, alterações e validações para fac
 - O validador confere presença dos arquivos principais, estrutura básica do HTML, equilíbrio de delimitadores do CSS, sintaxe do JavaScript inline e do Service Worker, IDs duplicados, sandbox do iframe, chaves de armazenamento e JSON/configuração essencial do manifesto PWA.
 - O workflow usa Node.js no ambiente hospedado do GitHub; não exige instalação no Android.
 - Não foram alterados os arquivos de execução do aplicativo, dados locais, backup/importação ou cache do PWA.
-- Validação local e teste físico no Android: não executados.
-- Próxima confirmação: observar a primeira execução real do GitHub Actions e corrigir qualquer falha do validador, se houver.
+- Primeira execução do GitHub Actions identificou uma condição excessivamente rígida na contagem de blocos CSS; o validador foi ajustado para considerar o bloco real e tolerar trechos de template HTML dentro do JavaScript.
+- Execução seguinte do GitHub Actions concluída com sucesso: 31 verificações aprovadas e 0 falhas (run 45198325521).
+- Foram validadas sintaxe do JavaScript inline e do Service Worker, estrutura básica de HTML/CSS, IDs, sandbox do iframe, chaves de armazenamento, rotinas de backup e manifesto PWA.
+- Teste físico no Android e teste de interação ponta a ponta: não executados; permanecem necessários para validar comportamento real do aplicativo.
