@@ -27,3 +27,14 @@ Este arquivo registra decisões relevantes, alterações e validações para fac
 - Execução seguinte do GitHub Actions concluída com sucesso: 31 verificações aprovadas e 0 falhas (run 45198325521).
 - Foram validadas sintaxe do JavaScript inline e do Service Worker, estrutura básica de HTML/CSS, IDs, sandbox do iframe, chaves de armazenamento, rotinas de backup e manifesto PWA.
 - Teste físico no Android e teste de interação ponta a ponta: não executados; permanecem necessários para validar comportamento real do aplicativo.
+
+## Etapa 3 — testes de regressão no navegador — 2026-11-23
+- Adicionado Playwright como ferramenta exclusiva do ambiente temporário do GitHub Actions; nenhuma dependência foi adicionada ao aplicativo publicado nem foi alterado o `index.html`.
+- Criado `playwright.config.mjs`, com Chromium headless, Service Worker bloqueado durante os testes e servidor local temporário.
+- Criado `scripts/serve-test.mjs`, servidor HTTP local mínimo para servir os arquivos reais do repositório durante os testes.
+- Criado `tests/e2e/studio.spec.mjs`, cobrindo criação de projeto, criação/alternância de arquivos, salvamento e persistência após recarregar, execução da pré-visualização HTML/CSS/JS, exportação de backup, importação com conflito sem duplicatas e rejeição de backup inválido sem sobrescrever dados.
+- Atualizado `.github/workflows/quality.yml` com job separado de regressão Chromium. A instalação do Playwright e do navegador ocorre somente no runner do GitHub.
+- Atualizados README e checklist para distinguir validação estática, teste automatizado no Chromium e teste físico no Android.
+- Escopo de segurança: sem mudanças nas chaves de armazenamento, no algoritmo de backup/importação, no sandbox, no Service Worker ou nos arquivos de execução do aplicativo.
+- Resultado do GitHub Actions: aguardando execução após o commit desta etapa; não declarar testes aprovados até inspecionar os logs.
+- Limitação: o Chromium em CI não comprova compatibilidade física Android, instalação PWA ou comportamento offline em aparelho real.
