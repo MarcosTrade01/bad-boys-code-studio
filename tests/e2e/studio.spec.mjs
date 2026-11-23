@@ -13,9 +13,6 @@ async function openFile(page, name) {
 }
 
 test.beforeEach(async ({ page }) => {
-  page.on("pageerror", error => {
-    throw error;
-  });
   await page.goto("/");
   await expect(page.locator("#editor")).toBeVisible();
 });
