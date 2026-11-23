@@ -54,3 +54,10 @@ Ao reportar, use categorias distintas:
 - **Teste no Android:** validação realizada no aparelho físico.
 
 Não transforme inspeção em alegação de teste executado.
+
+## Verificação automatizada do repositório
+- [ ] Conferir o resultado do fluxo **Verificações do projeto** na aba Actions do GitHub.
+- [ ] Confirmar que o passo `node scripts/validate-project.mjs` terminou com sucesso.
+- [ ] Se falhar, ler a mensagem exata e corrigir a causa antes de considerar a atualização validada.
+
+O validador estático não substitui os testes manuais de criação/edição de projetos, backup/importação, pré-visualização e PWA no Android.
